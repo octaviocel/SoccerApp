@@ -26,11 +26,11 @@ const ListPopular = memo(() => {
     <View style={styles.container}>
       <View style={styles.topContent}>
         <Text category="title2" marginLeft={24}>
-          Popular
+          Partidos
         </Text>
         <TouchableOpacity style={styles.btnAll}>
           <Text category="subhead" marginRight={8} status={"primary"}>
-            See all
+            ver todos
           </Text>
           <Icon pack="assets" name="rightArrow" style={styles.iconArr} />
         </TouchableOpacity>
@@ -64,20 +64,15 @@ const ListPopular = memo(() => {
                   <Icon pack="assets" name={item.icon} style={{}} />
                 </Layout>
                 <View style={styles.title}>
-                  <Text uppercase category="title4">
+                  <Text category="title4" marginRight={8}>
                     {item.title}
                   </Text>
                   <Text status={"placeholder"} marginRight={8}>
-                    /USD
+                    VS
                   </Text>
-                  <Icon
-                    pack="assets"
-                    name={item.status}
-                    style={styles.iconGrow}
-                  />
                 </View>
-                <Text category="headline" marginBottom={3} marginLeft={16}>
-                  ${item.coin}
+                <Text category="title4" marginBottom={3} marginLeft={16}>
+                  {item.coin}
                 </Text>
                 <Text
                   status={item.status === "grow" ? "green" : "red"}
@@ -167,42 +162,42 @@ const themedStyles = StyleService.create({
 const DATA = [
   {
     id: 0,
-    title: "ETHEREUM",
-    icon: "eth",
-    coin: 0.0007247,
-    percent: "+11.39%",
+    title: "Chacarita",
+    icon: "premier",
+    coin: "Villa Señor",
+    percent: "En vivo",
     status: Crypto_Types_Enum.Grow,
   },
   {
     id: 1,
-    title: "Bitcoin",
-    icon: "bitcoin",
-    coin: 0.03223,
-    percent: "+2.39%",
+    title: "Chelsea",
+    icon: "aque",
+    coin: "Villa Señor",
+    percent: "Finalizado",
     status: Crypto_Types_Enum.Down,
   },
   {
     id: 2,
-    title: "Ripple",
-    icon: "xrp",
-    coin: 0.7247,
-    percent: "-1.9%",
+    title: "Mccabi",
+    icon: "liga",
+    coin: "Villa Señor",
+    percent: "Finalizado",
     status: Crypto_Types_Enum.Down,
   },
   {
     id: 3,
-    title: "Tether",
-    icon: "tether",
-    coin: 0.247,
-    percent: "+1.9%",
+    title: "America",
+    icon: "liga1",
+    coin: "Villa Señor",
+    percent: "En vivo",
     status: Crypto_Types_Enum.Grow,
   },
   {
     id: 4,
-    title: "Littecoin",
-    icon: "littecoin",
-    coin: 0.247,
-    percent: "-2.932%",
+    title: "Villas Atlas",
+    icon: "serieA",
+    coin: "Villa Señor",
+    percent: "Finalizado",
     status: Crypto_Types_Enum.Down,
   },
 ];

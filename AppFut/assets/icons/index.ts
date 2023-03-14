@@ -111,4 +111,9 @@ export const Icons = {
   plus: require("./ic_plus.png"),
   shop: require("./ic_shop.png"),
   motorcycle: require("./ic_motorcycle.png"),
+  premier: require("./premier.png"),
+  aque: require("./aque.png"),
+  liga: require("./liga.png"),
+  liga1: require("./liga1.png"),
+  serieA: require("./serieA.png"),
 };

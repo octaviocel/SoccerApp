@@ -144,6 +144,12 @@ const AssetIconsPack: IconPack<ImageProps | SvgProps> = {
     minus: createIcon(Icons.minus),
     shop: createIcon(Icons.shop),
     motorcycle: createIcon(Icons.motorcycle),
+    premier : createIcon(Icons.premier),
+    aque : createIcon(Icons.aque),
+    liga : createIcon(Icons.liga),
+    liga1 : createIcon(Icons.liga1),
+    serieA : createIcon(Icons.serieA),
+
   },
 };
 export default AssetIconsPack;

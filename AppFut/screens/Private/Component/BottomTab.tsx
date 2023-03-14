@@ -8,8 +8,9 @@ import {
   Layout,
 } from "@ui-kitten/components";
 import useLayout from "../../../hoooks/useLayout";
+import Homepage from "../Homepage";
 
-//import { Images } from "assets/images";
+import { Images } from "../../../assets/images";
 
 interface Props {
   selectIndex?: number;
@@ -33,7 +34,7 @@ const BottomTab = memo(({ selectIndex = 0 }: Props) => {
             >
               {item.icon === "logo" ? (
                 <Image
-                  //source={Images.logo4}
+                  source={Images.futbol}
                   /* @ts-ignore */
                   style={styles.logo}
                 />
@@ -82,8 +83,8 @@ const themedStyles = StyleService.create({
   },
 });
 const DATA = [
-  { id: 1, icon: "barChart1" },
-  { id: 2, icon: "exchange" },
+  { id: 1, icon: "barChart1"},
+  { id: 2, icon: "exchange"},
   { id: 3, icon: "logo" },
   { id: 4, icon: "search" },
   { id: 5, icon: "creditCard" },

@@ -24,6 +24,10 @@ export type AppParamList ={
   HomePage: NavigatorScreenParams<CryptoStackParamList>;
 }
 
+export type InsideParamListScrens={
+  HomePage: undefined;
+}
+
 export type OnboardingParamList = {
   Onboarding: undefined;
   Onboarding01: undefined;

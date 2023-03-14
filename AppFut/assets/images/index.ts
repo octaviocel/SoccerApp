@@ -1,4 +1,5 @@
 export const Images = {
+ // futbol: require("./futbol.png"),
   donut: require("./image_donut.png"),
   pizza: require("./image_pizza.png"),
   logo1: require("./logo_1.png"),
@@ -231,4 +232,5 @@ export const Images = {
   ornament: require("./image_ornament.png"),
   success: require("./image_success.png"),
   tripleEllipse: require("./image_triple_ellipse.png"),
+  futbol: require("./futbol.png"),
 };

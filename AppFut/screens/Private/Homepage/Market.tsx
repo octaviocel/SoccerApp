@@ -17,10 +17,10 @@ const Market = memo(() => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text category="title2">Market</Text>
+        <Text category="title2">Ligas</Text>
         <View style={styles.hour}>
           <Text status={"primary"} category="subhead" marginRight={4}>
-            24 hours
+            Ver todas
           </Text>
           <Icon pack="assets" name="arrow" style={styles.arrow} />
         </View>
@@ -59,52 +59,52 @@ const themedStyles = StyleService.create({
 const DATA = [
   {
     id: 1,
-    title: "Bitcoin",
-    icon: "bitcoin",
-    coin: 0.03223,
-    percent: "+2.39%",
+    title: "Premier League",
+    icon: "premier",
+    coin: "Ocotlan",
+    percent: "Equipos",
     status: Crypto_Types_Enum.Grow,
-    price: "$6,456.45",
-    exchange: 13.36,
+    price: "Actualmente",
+    exchange: 18,
   },
   {
     id: 0,
-    title: "ETHEREUM",
-    icon: "eth",
-    coin: 0.0007247,
-    percent: "+11.39%",
+    title: "Liga de barro",
+    icon: "aque",
+    coin: "San Felipe",
+    percent: "Equipos",
     status: Crypto_Types_Enum.Grow,
-    price: "$8,682.45",
-    exchange: 24.36,
+    price: "Actualmente",
+    exchange: 10,
   },
   {
     id: 2,
-    title: "Ripple",
-    icon: "xrp",
-    coin: 0.7247,
-    percent: "-1.9%",
-    status: Crypto_Types_Enum.Down,
-    price: "$3,282.45",
-    exchange: 34.36,
+    title: "Liga Mx",
+    icon: "liga",
+    coin: "xoxocotlan",
+    percent: "Equipos",
+    status: Crypto_Types_Enum.Grow,
+    price: "Actualmente",
+    exchange: 21,
   },
   {
     id: 3,
-    title: "Tether",
-    icon: "tether",
-    coin: 0.247,
-    percent: "+1.9%",
+    title: "Serie A",
+    icon: "liga1",
+    coin: "San martin",
+    percent: "Equipos",
     status: Crypto_Types_Enum.Grow,
-    price: "$1,682.45",
-    exchange: 4.36,
+    price: "Actualmente",
+    exchange: 13,
   },
   {
     id: 4,
-    title: "Littecoin",
-    icon: "littecoin",
-    coin: 0.247,
-    percent: "-2.932%",
-    status: Crypto_Types_Enum.Down,
-    price: "$682.45",
-    exchange: 14.36,
+    title: "Liga Esapñola",
+    icon: "serieA",
+    coin: "Santa Rosa",
+    percent: "Equipos",
+    status: Crypto_Types_Enum.Grow,
+    price: "Actualmente",
+    exchange: 43,
   },
 ];

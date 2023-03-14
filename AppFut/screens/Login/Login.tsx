@@ -12,7 +12,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Text from "../../components/Text";
 import Content from "../../components/Content";
 import Container from "../../components/Container";
-//import { Images } from "assets/images";
+import { Images } from "../../assets/images/";
 import ButtonText from "../../components/ButtonText";
 //import { SignIn01_Data } from "./SignIn01";
 import useLayout from "../../hoooks/useLayout";
@@ -20,6 +20,11 @@ import { AppParamList, RootStackParamList } from "../../navigation/type";
 
 const Login = memo(() => {
  // const navigation = useNavigation();
+ 
+ type AppParamList = {
+  HomePage: undefined;
+};
+
   const { navigate, goBack } =   useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
@@ -28,8 +33,8 @@ const Login = memo(() => {
       <TopNavigation
         accessoryLeft={() => (
           <TouchableOpacity >
-            <Image
-              //source={Images.logo4}
+            <Image marginTop={46}
+              source={Images.futbol}
               /* @ts-ignore */
               style={styles.icon}
             />
@@ -37,20 +42,20 @@ const Login = memo(() => {
         )}
       />
       <Content style={styles.content}>
-        <Text category="header" marginTop={16} marginRight={94}>
-          Controlando el Juego.
+        <Text category="header" marginTop={36} marginRight={100}>
+              MatchMate
         </Text>
         <Input
-          placeholder="correo"
+          placeholder="Correo Electrónico"
           status="primary"
           style={styles.input}
         />
         <Input
-          placeholder="password"
+          placeholder="Password"
           status="primary"
           style={styles.input}
         />
-        <Button children="Iniciar Sesión" onPress={()=> navigate("HomePage")} />
+        <Button status='warning' style={styles.wallet} children="Iniciar Sesión" onPress={()=> navigate("HomePage")} />
         {/* <Button
           children="Connect Wallet"
           style={styles.wallet}
@@ -60,14 +65,14 @@ const Login = memo(() => {
           category="call-out"
           status="primary"
           icon="rightChevron"
-          title="About us Metmoi"
+          title="Regístrate"
           styleIcon={styles.iconArrow}
         />
         <ButtonText
           category="call-out"
           status="primary"
           icon="rightChevron"
-          title="Understand our project?"
+          title="¿Olvidaste tu contraseña?"
           styleIcon={styles.iconArrow}
           style={styles.btnText}
         />
@@ -75,7 +80,7 @@ const Login = memo(() => {
           category="call-out"
           status="primary"
           icon="rightChevron"
-          title="Contact us"
+          title="Contáctanos"
           styleIcon={styles.iconArrow}
           style={styles.btnText}
         />
@@ -99,10 +104,12 @@ export default Login;
 const themedStyles = StyleService.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
-    width: 48,
-    height: 48,
+    width: 98,
+    height: 98,
     marginLeft: 40,
   },
   iconArrow: {
@@ -110,7 +117,6 @@ const themedStyles = StyleService.create({
     marginRight: 8,
   },
   input: {
-    
     marginVertical: 24,
   },
   wallet: {
@@ -118,7 +124,7 @@ const themedStyles = StyleService.create({
     marginBottom: 32,
   },
   content: {
-    marginHorizontal: 40,
+    marginHorizontal: 20,
   },
   btnImage: {
     justifyContent: "space-between",

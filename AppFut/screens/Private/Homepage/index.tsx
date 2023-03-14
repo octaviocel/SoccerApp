@@ -71,12 +71,12 @@ const Homepage = memo(() => {
                   category="title3"
                   marginRight={120}
                 >
-                  Connect and Sell extraordinary NFTs
+                  Noticias de ultimo momento acerca de tu equipo favorito
                 </Text>
                 <Button
                   children={() => (
                     <Text category="subhead" status={"black"}>
-                      Learn more
+                      Ver noticias
                     </Text>
                   )}
                   style={styles.learnMore}

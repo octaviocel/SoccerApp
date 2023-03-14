@@ -19,11 +19,11 @@ interface Props {
   id: number;
   title: string;
   icon: string;
-  coin: number;
+  coin: string | number;
   percent: string;
   status: Crypto_Types_Enum;
   price: string;
-  exchange: number;
+  exchange: string | number;
 }
 interface ItemProps {
   item: Props;
@@ -56,7 +56,7 @@ const MarketItem = memo(({ item, style }: ItemProps) => {
             status={item.status === "grow" ? "green" : "red"}
             category="caption1"
           >
-            ({item.status === "grow" ? "+$" : "-$"}
+            ({item.status === "grow" ? "" : "-$"}
             {item.exchange})
           </Text>
         </Text>
