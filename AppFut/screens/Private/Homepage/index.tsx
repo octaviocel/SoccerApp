@@ -19,6 +19,7 @@ import BottomTab from "../Component/BottomTab";
 //import keyExtractor from "utils/keyExtractor";
 import ListPopular from "./ListPopular";
 
+
 const Homepage = memo(() => {
   const { goBack } = useNavigation();
   const { height, width, top, bottom } = useLayout();
@@ -27,6 +28,7 @@ const Homepage = memo(() => {
   const keyExtractor = (item: any, index: number) => index.toString();
 
   const SIZE_PIG = 195.97 * (width / 375);
+
 
   return (
     <Container style={styles.container} useSafeArea={false}>
