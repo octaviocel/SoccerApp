@@ -4,6 +4,8 @@ import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ValidRols } from 'src/auth/dto/validRols.enum';
 
 @ApiTags('Usuario')
 @Controller('usuario')
@@ -11,6 +13,7 @@ export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post()
+  @Auth(ValidRols.admin)
   @ApiResponse({ status: 201, description: 'Usuario creado', type: Usuario })
   @ApiResponse({ status: 400, description: 'Bad request' })
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
@@ -28,6 +31,7 @@ export class UsuarioController {
   }
 
   @Patch(':id')
+  @Auth()
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuarioService.update(+id, updateUsuarioDto);
   }

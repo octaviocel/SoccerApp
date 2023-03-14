@@ -14,6 +14,7 @@ import { GoleoModule } from './goleo/goleo.module';
 import { TarjetasAmarillasModule } from './tarjetas-amarillas/tarjetas-amarillas.module';
 import { TarjetasRojaModule } from './tarjetas-roja/tarjetas-roja.module';
 import { S3Module } from './s3/s3.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -38,7 +39,8 @@ import { S3Module } from './s3/s3.module';
     GoleoModule,
     TarjetasAmarillasModule,
     TarjetasRojaModule,
-    S3Module],
+    S3Module,
+    AuthModule,],
   controllers: [],
   providers: [],
 
@@ -46,6 +48,6 @@ import { S3Module } from './s3/s3.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
-    
+
   }
 }
