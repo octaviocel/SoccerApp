@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import httpClient from "./HttpClient";
+import httpClient from "./httpClient";
 
 const prefix = 'usuario';
 

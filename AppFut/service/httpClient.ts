@@ -6,7 +6,7 @@ const toke = null;
 //await SecureStore.getItemAsync("auth-token");
 
 const httpClient = axios.create({
-  baseURL: "http://31.220.17.225",
+  baseURL: "http://localhost:3000/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -52,7 +52,7 @@ httpClient.interceptors.response.use(
 );
 
 const httpFormDataClient = axios.create({
-  baseURL: "http://31.220.17.225", // Server Address
+  baseURL: "http://localhost:3000/", // Server Address
   headers: {
     "Content-Type": "multipart/form-data",
   },

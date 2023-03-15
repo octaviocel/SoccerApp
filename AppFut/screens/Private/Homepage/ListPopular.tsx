@@ -30,7 +30,7 @@ const ListPopular = memo(() => {
         </Text>
         <TouchableOpacity style={styles.btnAll}>
           <Text category="subhead" marginRight={8} status={"primary"}>
-            ver todos
+            Ver todos
           </Text>
           <Icon pack="assets" name="rightArrow" style={styles.iconArr} />
         </TouchableOpacity>
