@@ -22,10 +22,12 @@ export type RootStackParamList = {
 export type AppParamList ={
   Login: undefined;
   HomePage: NavigatorScreenParams<CryptoStackParamList>;
+  NewsPage: NavigatorScreenParams<CryptoStackParamList>;
 }
 
 export type InsideParamListScrens={
   HomePage: undefined;
+  NewsPage:undefined;
 }
 
 export type OnboardingParamList = {

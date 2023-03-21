@@ -7,9 +7,8 @@ import {
   Button,
   Layout,
 } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
 import useLayout from "../../../hoooks/useLayout";
-
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Text from "../../../components/Text";
 import Container from "../../../components/Container";
 import BasicHeader from "../Component/BasicHeader";
@@ -18,9 +17,14 @@ import Market from "./Market";
 import BottomTab from "../Component/BottomTab";
 //import keyExtractor from "utils/keyExtractor";
 import ListPopular from "./ListPopular";
+import { Images } from "../../../assets/images";
 
 const Homepage = memo(() => {
-  const { goBack } = useNavigation();
+  type AppParamList = {
+    NewsPage: undefined;
+  };
+
+  const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { height, width, top, bottom } = useLayout();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
@@ -38,7 +42,7 @@ const Homepage = memo(() => {
       <BasicHeader
         style={[{ marginTop: top }]}
         appearance={"control"}
-        iconLeft={{ icon: "drawMenu" }}
+        iconLeft={{ icon: "leftArrow" }}
         iconRight={{ icon: "user" }}
         title="MatchMate"
       />
@@ -52,7 +56,7 @@ const Homepage = memo(() => {
           <>
             <View style={styles.title}>
               <Image
-                //source={Images.safeMoney}
+                source={Images.safeMoney}
                 resizeMode="center"
                 style={{
                   width: SIZE_PIG,
@@ -81,6 +85,7 @@ const Homepage = memo(() => {
                   )}
                   style={styles.learnMore}
                   size={"44"}
+                  onPress={() => navigate("NewsPage")}
                 />
               </View>
             </View>

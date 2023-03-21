@@ -1,6 +1,6 @@
 export const Icons = {
   website: require("./ic_website.png"),
-  leftArrow: require("./ic_left_arrow.png"),
+  leftArrow: require("./ic_arr_left_16.png"),
   rightArrow: require("./ic_right_arrow.png"),
   upArrow: require("./ic_up_arrow.png"),
   downArrow: require("./ic_down_arrow.png"),

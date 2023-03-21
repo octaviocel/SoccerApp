@@ -9,6 +9,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AppParamList, RootStackParamList } from "./type";
 import Login from "../screens/Login/Login";
 import Homepage from "../screens/Private/Homepage";
+import NewsPage from "../screens/Private/News/indexNews";
+
 
 const Stack = createNativeStackNavigator<AppParamList>();
 
@@ -34,6 +36,7 @@ const AppContainer = () => {
           <Stack.Screen name="Health" component={HealthStackNavigator} />
           <Stack.Screen name="Education" component={EducationStackNavigator} /> */}
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="NewsPage" component={NewsPage} />
           <Stack.Screen name="HomePage" component={Homepage} />
           {/* <Stack.Screen name="Delivery" component={DeliveryStackNavigator} /> */}
         </Stack.Navigator>
