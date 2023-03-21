@@ -26,7 +26,7 @@ interface BasicHeaderProps extends TopNavigationProps {
 const BasicHeader = memo(
   ({
     style,
-    iconLeft,
+    //iconLeft,
     iconRight,
     title,
     notification,
@@ -38,12 +38,12 @@ const BasicHeader = memo(
       <TopNavigation
         style={style}
         title={title}
-        accessoryLeft={
-          <NavigationAction
-            icon={iconLeft.icon}
-            onPress={iconLeft._onPress ? iconLeft._onPress : goBack}
-          />
-        }
+        // accessoryLeft={
+        //   <NavigationAction
+        //     icon={iconLeft.icon}
+        //     onPress={iconLeft._onPress ? iconLeft._onPress : goBack}
+        //   />
+        // }
         accessoryRight={
           <View>
             {notification ? (

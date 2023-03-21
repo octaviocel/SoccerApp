@@ -42,7 +42,7 @@ const Homepage = memo(() => {
       <BasicHeader
         style={[{ marginTop: top }]}
         appearance={"control"}
-        iconLeft={{ icon: "leftArrow" }}
+        iconLeft={{ icon: "drawMenu" }}
         iconRight={{ icon: "user" }}
         title="MatchMate"
       />
