@@ -7,9 +7,8 @@ import {
   Button,
   Layout,
 } from "@ui-kitten/components";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
 import useLayout from "../../../hoooks/useLayout";
-
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Text from "../../../components/Text";
 import Container from "../../../components/Container";
 import BasicHeader from "../Component/BasicHeader";
@@ -20,8 +19,14 @@ import BottomTab from "../Component/BottomTab";
 import ListPopular from "./ListPopular";
 import { AppParamList } from "../../../navigation/type";
 
+import { Images } from "../../../assets/images";
+
 const Homepage = memo(() => {
-  const { goBack, navigate } = useNavigation<NavigationProp<AppParamList>>();
+  type AppParamList = {
+    NewsPage: undefined;
+  };
+
+  const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { height, width, top, bottom } = useLayout();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
@@ -40,7 +45,7 @@ const Homepage = memo(() => {
         style={[{ marginTop: top }]}
         appearance={"control"}
         iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user", _onPress: () => { navigate ('Login')} }}
+        iconRight={{ icon: "user" }}
         title="MatchMate"
       />
       <FlatList
@@ -53,7 +58,7 @@ const Homepage = memo(() => {
           <>
             <View style={styles.title}>
               <Image
-                //source={Images.safeMoney}
+                /*source={Images.safeMoney}*/
                 resizeMode="center"
                 style={{
                   width: SIZE_PIG,
@@ -65,12 +70,12 @@ const Homepage = memo(() => {
                 }}
               />
 
-              <View>
+              <View style={styles.noticias}>
                 <Text
                   marginLeft={24}
                   marginTop={16}
                   category="title3"
-                  marginRight={120}
+                  marginRight={50}
                 >
                   Noticias de ultimo momento acerca de tu equipo favorito
                 </Text>
@@ -82,6 +87,7 @@ const Homepage = memo(() => {
                   )}
                   style={styles.learnMore}
                   size={"44"}
+                  onPress={() => navigate("NewsPage")}
                 />
               </View>
             </View>
@@ -104,6 +110,11 @@ const themedStyles = StyleService.create({
   container: {
     flex: 1,
   },
+  noticias:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   bg: {
     position: "absolute",
     left: 0,
@@ -120,7 +131,7 @@ const themedStyles = StyleService.create({
     borderTopRightRadius: 32,
   },
   learnMore: {
-    width: 104,
+    width: 130,
     marginLeft: 24,
     marginTop: 8,
   },

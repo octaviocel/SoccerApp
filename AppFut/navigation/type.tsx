@@ -27,11 +27,14 @@ export type AppParamList = {
   DetailTableLeague: { value: number } | undefined;
   FormLeague: undefined;
   MenuLeague: undefined ;
-};
+  NewsPage: NavigatorScreenParams<CryptoStackParamList>;
+}
 
 export type InsideParamListScrens = {
   HomePage: undefined;
-};
+  NewsPage:undefined;
+  FormLeague:undefined
+}
 
 export type OnboardingParamList = {
   Onboarding: undefined;
