@@ -88,7 +88,7 @@ const Login = memo(() => {
           scrollEnabled={false}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[styles.btnImage, { paddingBottom: bottom +24}]}
+          contentContainerStyle={[styles.btnImage, { paddingBottom: bottom +24, justifyContent: 'center'}]}
         >
           {/*SignIn01_Data.map((_, i) => {
             return <Image key={i} source={_.image} />;

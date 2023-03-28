@@ -233,4 +233,6 @@ export const Images = {
   success: require("./image_success.png"),
   tripleEllipse: require("./image_triple_ellipse.png"),
   futbol: require("./futbol.png"),
+  mexico : require("./mexico.png"),
+  aire : require("./aire.png"),
 };

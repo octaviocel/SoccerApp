@@ -23,11 +23,13 @@ export type AppParamList ={
   Login: undefined;
   HomePage: NavigatorScreenParams<CryptoStackParamList>;
   NewsPage: NavigatorScreenParams<CryptoStackParamList>;
+  FormLeague : undefined
 }
 
 export type InsideParamListScrens={
   HomePage: undefined;
   NewsPage:undefined;
+  FormLeague:undefined
 }
 
 export type OnboardingParamList = {

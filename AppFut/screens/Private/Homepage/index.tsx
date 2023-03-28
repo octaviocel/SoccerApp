@@ -56,7 +56,7 @@ const Homepage = memo(() => {
           <>
             <View style={styles.title}>
               <Image
-                source={Images.safeMoney}
+                /*source={Images.safeMoney}*/
                 resizeMode="center"
                 style={{
                   width: SIZE_PIG,
@@ -68,12 +68,12 @@ const Homepage = memo(() => {
                 }}
               />
 
-              <View>
+              <View style={styles.noticias}>
                 <Text
                   marginLeft={24}
                   marginTop={16}
                   category="title3"
-                  marginRight={120}
+                  marginRight={50}
                 >
                   Noticias de ultimo momento acerca de tu equipo favorito
                 </Text>
@@ -108,6 +108,11 @@ const themedStyles = StyleService.create({
   container: {
     flex: 1,
   },
+  noticias:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   bg: {
     position: "absolute",
     left: 0,
@@ -124,7 +129,7 @@ const themedStyles = StyleService.create({
     borderTopRightRadius: 32,
   },
   learnMore: {
-    width: 104,
+    width: 130,
     marginLeft: 24,
     marginTop: 8,
   },

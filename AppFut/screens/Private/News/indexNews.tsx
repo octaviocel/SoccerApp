@@ -29,7 +29,7 @@ const NewsPage = memo(() => {
     const styles = useStyleSheet(themedStyles);
     const keyExtractor = (item: any, index: number) => index.toString();
   
-    const SIZE_PIG = 195.97 * (width / 375);
+    const SIZE_IMAGE = 195.97 * (width / 375);
   
     return (
       <Container style={styles.container} useSafeArea={false}>
@@ -55,13 +55,13 @@ const NewsPage = memo(() => {
             <>
               <View style={styles.title}>
                 <Image
-                  source={Images.donut}
+                  source={Images.mexico}
                   resizeMode="center"
                   style={{
-                    width: SIZE_PIG,
-                    height: SIZE_PIG,
+                    width: SIZE_IMAGE,
+                    height: SIZE_IMAGE,
                     position: "absolute",
-                    right: -8,
+                    right: -20,
                     top: -16,
                     transform: [{ rotateZ: "3deg" }],
                   }}
@@ -71,18 +71,18 @@ const NewsPage = memo(() => {
                   <Text
                     marginLeft={24}
                     marginTop={16}
-                    category="title3"
+                    category="title4"
                     marginRight={120}
                   >
-                    Noticias de ultimo momento acerca de tu equipo favorito
+               Chacarita liga su tecera derrota consecutiva y pude quedarse fuera de la liguilla
                   </Text>
                   <Button
                     children={() => (
-                      <Text category="subhead" status={"black"}>
-                        Ver noticias
+                      <Text category="title4" status={"black"}>
+                        Ver más
                       </Text>
                     )}
-                    style={styles.learnMore}
+                    style={styles.news}
                     size={"44"}
                   />
                 </View>
@@ -92,11 +92,11 @@ const NewsPage = memo(() => {
 
               <View>
               <Image
-                  source={Images.safeMoney}
+                  source={Images.aire}
                   resizeMode="center"
                   style={{
-                    width: SIZE_PIG,
-                    height: SIZE_PIG,
+                    width: SIZE_IMAGE,
+                    height: SIZE_IMAGE,
                     position: "absolute",
                     right: -8,
                     top: -16,
@@ -108,22 +108,94 @@ const NewsPage = memo(() => {
                   <Text
                     marginLeft={24}
                     marginTop={16}
-                    category="title3"
+                    category="title4"
                     marginRight={120}
                   >
-                    Noticias de ultimo momento acerca de tu equipo favorito
+                  EL cristiano Ronaldo Oaxaqueño rompe el record de salto de cualquier marca registrada
                   </Text>
                   <Button
                     children={() => (
-                      <Text category="subhead" status={"black"}>
-                        Ver noticias
+                      <Text category="title4" status={"black"}>
+                        Ver más
                       </Text>
                     )}
-                    style={styles.learnMore}
+                    style={styles.news}
                     size={"44"}
                   />
                 </View>
               </View>
+
+              <View>
+              <Image
+                  source={Images.guyRiding}
+                  resizeMode="center"
+                  style={{
+                    width: SIZE_IMAGE,
+                    height: SIZE_IMAGE,
+                    position: "absolute",
+                    right: -8,
+                    top: -16,
+                    transform: [{ rotateZ: "3deg" }],
+                  }}
+                />
+                <View>
+                  <Text
+                    marginLeft={24}
+                    marginTop={16}
+                    category="title4"
+                    marginRight={120}
+                  >
+                    Señor Drogado entra en patineta y estropea el partido
+                  </Text>
+                  <Button
+                    children={() => (
+                      <Text category="title4" status={"black"}>
+                        Ver mas
+                      </Text>
+                    )}
+                    style={styles.news}
+                    size={"44"}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.title}>
+                <Image
+                  source={Images.mexico}
+                  resizeMode="center"
+                  style={{
+                    width: SIZE_IMAGE,
+                    height: SIZE_IMAGE,
+                    position: "absolute",
+                    right: -20,
+                    top: -16,
+                    transform: [{ rotateZ: "3deg" }],
+                  }}
+                />
+  
+                <View>
+                  <Text
+                    marginLeft={24}
+                    marginTop={16}
+                    category="title4"
+                    marginRight={120}
+                  >
+               Chacarita liga su tecera derrota consecutiva y pude quedarse fuera de la liguilla
+                  </Text>
+                  <Button
+                    children={() => (
+                      <Text category="title4" status={"black"}>
+                        Ver más
+                      </Text>
+                    )}
+                    style={styles.news}
+                    size={"44"}
+                  />
+                </View>
+
+              
+              </View>
+              
               <Layout style={styles.topContent} />
               <Layout>
 
@@ -161,6 +233,12 @@ const NewsPage = memo(() => {
       width: 104,
       marginLeft: 24,
       marginTop: 8,
+    },
+    news: {
+      width: 184,
+      marginLeft: 24,
+      marginTop: 8,
+      backgroundColor: 'yellow',
     },
     content: {
       borderTopLeftRadius: 24,

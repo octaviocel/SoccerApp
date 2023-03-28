@@ -10,6 +10,7 @@ import { AppParamList, RootStackParamList } from "./type";
 import Login from "../screens/Login/Login";
 import Homepage from "../screens/Private/Homepage";
 import NewsPage from "../screens/Private/News/indexNews";
+import FormLeague from "../screens/Private/Ligas/FormLeague";
 
 
 const Stack = createNativeStackNavigator<AppParamList>();
@@ -21,7 +22,7 @@ const AppContainer = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="Login"
+          initialRouteName="FormLeague"
         >
           {/* <Stack.Screen name="Term" component={Term} />
           <Stack.Screen name="Intro" component={Intro} />
@@ -38,6 +39,7 @@ const AppContainer = () => {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="NewsPage" component={NewsPage} />
           <Stack.Screen name="HomePage" component={Homepage} />
+          <Stack.Screen name="FormLeague" component={FormLeague} />
           {/* <Stack.Screen name="Delivery" component={DeliveryStackNavigator} /> */}
         </Stack.Navigator>
       </NavigationContainer>
