@@ -13,7 +13,7 @@ export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post()
-  @Auth(ValidRols.admin)
+ // @Auth(ValidRols.admin)
   @ApiResponse({ status: 201, description: 'Usuario creado', type: Usuario })
   @ApiResponse({ status: 400, description: 'Bad request' })
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
@@ -31,7 +31,7 @@ export class UsuarioController {
   }
 
   @Patch(':id')
-  @Auth()
+ // @Auth()
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuarioService.update(+id, updateUsuarioDto);
   }

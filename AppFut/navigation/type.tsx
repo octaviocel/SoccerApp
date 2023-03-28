@@ -16,17 +16,22 @@ export type RootStackParamList = {
   Education: NavigatorScreenParams<EducationStackParamList>;
   Crypto: NavigatorScreenParams<CryptoStackParamList>;
   Delivery: NavigatorScreenParams<DeliveryStackParamList>;
-  AppReal : NavigatorScreenParams<AppParamList>;
+  AppReal: NavigatorScreenParams<AppParamList>;
 };
 
-export type AppParamList ={
+export type AppParamList = {
   Login: undefined;
-  HomePage: NavigatorScreenParams<CryptoStackParamList>;
-}
+  HomePage:
+    | NavigatorScreenParams<CryptoStackParamList>
+    | undefined;
+  DetailTableLeague: { value: number } | undefined;
+  FormLeague: undefined;
+  MenuLeague: undefined ;
+};
 
-export type InsideParamListScrens={
+export type InsideParamListScrens = {
   HomePage: undefined;
-}
+};
 
 export type OnboardingParamList = {
   Onboarding: undefined;

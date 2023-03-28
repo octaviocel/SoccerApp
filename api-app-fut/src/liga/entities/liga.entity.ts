@@ -9,10 +9,13 @@ export class Liga {
     nombre: string;
 
     @Column({ type: 'date' })
-    fechaFundacion : Date;
+    fechaFundacion : string;
 
     @Column({ type: 'text' })
     foto: string;
+
+    @Column({ type: 'text' })
+    ubicacion: string;
 
     @CreateDateColumn()
     createdAt: Date;

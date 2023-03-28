@@ -19,6 +19,11 @@ export class LigaController {
     return this.ligaService.findAll();
   }
 
+  @Get('limit')
+  findAllLimit() {
+    return this.ligaService.findAllLimit();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ligaService.findOne(+id);

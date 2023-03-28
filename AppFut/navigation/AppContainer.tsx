@@ -9,6 +9,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AppParamList, RootStackParamList } from "./type";
 import Login from "../screens/Login/Login";
 import Homepage from "../screens/Private/Homepage";
+import { TableResponsive } from "../screens/Private/TableLeague";
+import MenuLeague from "../screens/Private/MenuLeague/Index";
 
 const Stack = createNativeStackNavigator<AppParamList>();
 
@@ -19,7 +21,7 @@ const AppContainer = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="Login"
+          initialRouteName="HomePage"
         >
           {/* <Stack.Screen name="Term" component={Term} />
           <Stack.Screen name="Intro" component={Intro} />
@@ -35,6 +37,9 @@ const AppContainer = () => {
           <Stack.Screen name="Education" component={EducationStackNavigator} /> */}
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="HomePage" component={Homepage} />
+          <Stack.Screen name="DetailTableLeague" component={TableResponsive} />
+          <Stack.Screen name="MenuLeague" component={MenuLeague} />
+          
           {/* <Stack.Screen name="Delivery" component={DeliveryStackNavigator} /> */}
         </Stack.Navigator>
       </NavigationContainer>

@@ -45,5 +45,6 @@ export class CreateEquipoDto {
         description: 'Liga a la que pertenece el equipo',
         nullable: false,
     })
+    @IsNumber()
     liga_id: number;
 }

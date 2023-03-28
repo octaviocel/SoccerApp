@@ -12,8 +12,9 @@ export class CreateLigaDto {
         description: 'Fecha de Creacion de la Liga',
         nullable: false,
     })
-    @IsDate()
-    fechaFundacion: Date;
+   // @IsDate()
+   @IsString()
+    fechaFundacion: string;
 
     @ApiProperty({
         description: 'Foto de la Liga',
@@ -21,5 +22,12 @@ export class CreateLigaDto {
     })
     @IsString()
     foto: string;
+
+    @ApiProperty({
+        description: 'Ubicacion de la Liga',
+        nullable: false,
+    })
+    @IsString()
+    ubicacion: string;
 
 }

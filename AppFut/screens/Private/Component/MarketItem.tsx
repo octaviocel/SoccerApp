@@ -1,5 +1,12 @@
-import React, { memo } from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import React, { memo, useEffect, useState } from "react";
+import {
+  Image,
+  StyleProp,
+  Touchable,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import {
   StyleService,
   useStyleSheet,
@@ -8,6 +15,7 @@ import {
 } from "@ui-kitten/components";
 
 import Text from "../../../components/Text";
+import S3Service from "../../../service/S3Service";
 //import { Crypto_Types_Enum } from "constants/Type";
 
 enum Crypto_Types_Enum {
@@ -17,51 +25,75 @@ enum Crypto_Types_Enum {
 
 interface Props {
   id: number;
-  title: string;
-  icon: string;
-  coin: string | number;
-  percent: string;
-  status: Crypto_Types_Enum;
-  price: string;
-  exchange: string | number;
+  nombre: string;
+  foto: string;
+  ubicacion: string;
+  fechaFundacion: string;
+  //status: Crypto_Types_Enum;
+  // price: string;
+  totalEquipos: string | number;
 }
 interface ItemProps {
   item: Props;
   style?: StyleProp<ViewStyle>;
+  _onPres?: () => void;
 }
 
-const MarketItem = memo(({ item, style }: ItemProps) => {
+const MarketItem = memo(({ item, style, _onPres }: ItemProps) => {
   const styles = useStyleSheet(themedStyles);
+  const [src, setSrc] = useState("");
+
+  useEffect(() => {
+    getImage();
+  }, []);
+
+  const getImage = async () => {
+    const { url } = await S3Service.get(item.foto);
+    //console.log(url);
+    setSrc(url);
+  };
   return (
-    <View style={[styles.item, style]}>
-      <View style={styles.state}>
-        <Layout style={styles.iconLogo} level={"2"}>
-          <Icon pack="assets" name={item.icon} style={{}} />
-        </Layout>
-        <View>
-          <Text category="headline">{item.title}</Text>
-          <Text category="caption1" uppercase status={"placeholder"}>
-            {item.coin}
+    <TouchableOpacity onPress={_onPres}>
+      <View style={[styles.item, style]}>
+        <View style={styles.state}>
+          <Layout style={styles.iconLogo} level={"2"}>
+            {/*
+            PONER LA IMAGEN
+            <Icon pack="assets" name={item.icon} style={{}} /> */}
+            <Image
+              source={{ uri: src ? src : "" }}
+              style={{
+                width: 40,
+                height: 40,
+                //marginBottom: 16,
+                borderRadius: 99,
+              }}
+            />
+          </Layout>
+          <View>
+            <Text category="headline">{item.nombre}</Text>
+            <Text category="caption1" uppercase status={"placeholder"}>
+              {item.ubicacion}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.rightItem}>
+          <Text category="headline">
+            {item.fechaFundacion
+              .substring(0, 10)
+              .split("-")
+              .reverse()
+              .join("-")}
+          </Text>
+          <Text status={"green"} category="caption1">
+            Equipos{" "}
+            <Text status={"green"} category="caption1">
+              {item.totalEquipos}
+            </Text>
           </Text>
         </View>
       </View>
-      <View style={styles.rightItem}>
-        <Text category="headline">{item.price}</Text>
-        <Text
-          status={item.status === "grow" ? "green" : "red"}
-          category="caption1"
-        >
-          {item.percent}
-          <Text
-            status={item.status === "grow" ? "green" : "red"}
-            category="caption1"
-          >
-            ({item.status === "grow" ? "" : "-$"}
-            {item.exchange})
-          </Text>
-        </Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 });
 

@@ -1,10 +1,16 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { View } from "react-native";
 import { StyleService, useStyleSheet, Icon } from "@ui-kitten/components";
 
 import Text from "../../../components/Text";
 //import { Crypto_Types_Enum } from "constants/Type";
 import MarketItem from "../Component/MarketItem";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { AppParamList } from "../../../navigation/type";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { getAllLigas, getAllLigasLimit } from "../../../service/LigasService";
 
 enum Crypto_Types_Enum {
   Grow = "grow",
@@ -14,21 +20,49 @@ enum Crypto_Types_Enum {
 const Market = memo(() => {
   const styles = useStyleSheet(themedStyles);
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { ligasPreview, fetched } = useSelector((state: RootState) => state.ligas);
+
+  const { navigate } = useNavigation<NavigationProp<AppParamList>>();
+
+  useEffect(() => {
+    getLigas()
+  }, [dispatch]);
+
+  const getLigas=  ()=>{
+    dispatch(getAllLigasLimit());
+  }
+
+  //console.log(ligas);
   return (
-    <View style={styles.container}>
-      <View style={styles.title}>
-        <Text category="title2">Ligas</Text>
-        <View style={styles.hour}>
-          <Text status={"primary"} category="subhead" marginRight={4}>
-            Ver todas
-          </Text>
-          <Icon pack="assets" name="arrow" style={styles.arrow} />
+    <>
+      {fetched ? (
+        <View style={styles.container}>
+          <View style={styles.title}>
+            <Text category="title2">Ligas</Text>
+            <View style={styles.hour}>
+              <Text status={"primary"} category="subhead" marginRight={4}>
+                Ver todas
+              </Text>
+              <Icon pack="assets" name="arrow" style={styles.arrow} />
+            </View>
+          </View>
+          {ligasPreview.map((item, i) => {
+            return (
+              <MarketItem
+                item={item}
+                key={i}
+                style={styles.item}
+                _onPres={() => navigate(`DetailTableLeague`, { value: item.id })}
+              />
+            );
+          })}
         </View>
-      </View>
-      {DATA.map((item, i) => {
-        return <MarketItem item={item} key={i} style={styles.item} />;
-      })}
-    </View>
+      ) : (
+        <></>
+      )}
+    </>
   );
 });
 
@@ -56,55 +90,3 @@ const themedStyles = StyleService.create({
     marginHorizontal: 24,
   },
 });
-const DATA = [
-  {
-    id: 1,
-    title: "Premier League",
-    icon: "premier",
-    coin: "Ocotlan",
-    percent: "Equipos",
-    status: Crypto_Types_Enum.Grow,
-    price: "Actualmente",
-    exchange: 18,
-  },
-  {
-    id: 0,
-    title: "Liga de barro",
-    icon: "aque",
-    coin: "San Felipe",
-    percent: "Equipos",
-    status: Crypto_Types_Enum.Grow,
-    price: "Actualmente",
-    exchange: 10,
-  },
-  {
-    id: 2,
-    title: "Liga Mx",
-    icon: "liga",
-    coin: "xoxocotlan",
-    percent: "Equipos",
-    status: Crypto_Types_Enum.Grow,
-    price: "Actualmente",
-    exchange: 21,
-  },
-  {
-    id: 3,
-    title: "Serie A",
-    icon: "liga1",
-    coin: "San martin",
-    percent: "Equipos",
-    status: Crypto_Types_Enum.Grow,
-    price: "Actualmente",
-    exchange: 13,
-  },
-  {
-    id: 4,
-    title: "Liga Esapñola",
-    icon: "serieA",
-    coin: "Santa Rosa",
-    percent: "Equipos",
-    status: Crypto_Types_Enum.Grow,
-    price: "Actualmente",
-    exchange: 43,
-  },
-];

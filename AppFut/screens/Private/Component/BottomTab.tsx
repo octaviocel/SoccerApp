@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import {
   useTheme,
@@ -10,18 +10,42 @@ import {
 import useLayout from "../../../hoooks/useLayout";
 import Homepage from "../Homepage";
 
+import * as SecureStore from "expo-secure-store";
+
 import { Images } from "../../../assets/images";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { AppParamList } from "../../../navigation/type";
 
 interface Props {
   selectIndex?: number;
 }
 
-const BottomTab = memo(({ selectIndex = 0 }: Props) => {
+const BottomTab = memo(({ selectIndex }: Props) => {
   const { height, width, top, bottom } = useLayout();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
-
   const [activeTab, setActiveTab] = React.useState(selectIndex);
+
+  const DATA = [
+    {
+      id: 1,
+      icon: "barChart1",
+      navega: () => navigate("HomePage"),
+    },
+    {
+      id: 2,
+      icon: "exchange",
+      navega: () => navigate("MenuLeague"),
+    },
+    { id: 3, icon: "logo", navega: () => navigate("HomePage") },
+    { id: 4, icon: "search", navega: () => navigate("HomePage") },
+    { id: 5, icon: "creditCard", navega: () => navigate("HomePage") },
+  ];
+
+  const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
+
+  
+
   return (
     <Layout style={[styles.container, { paddingBottom: bottom }]} level={"2"}>
       <View style={styles.content}>
@@ -30,7 +54,10 @@ const BottomTab = memo(({ selectIndex = 0 }: Props) => {
             <TouchableOpacity
               activeOpacity={0.7}
               key={i}
-              onPress={() => setActiveTab(i)}
+              onPress={() => {
+                //setSecure(i);
+                item.navega();
+              }}
             >
               {item.icon === "logo" ? (
                 <Image
@@ -45,7 +72,7 @@ const BottomTab = memo(({ selectIndex = 0 }: Props) => {
                   style={[
                     {
                       tintColor:
-                        activeTab === i
+                        selectIndex === i
                           ? theme["text-primary-color"]
                           : theme["text-snow-color"],
                     },
@@ -66,6 +93,7 @@ export default BottomTab;
 const themedStyles = StyleService.create({
   container: {
     paddingHorizontal: 32,
+    
   },
   content: {
     flexDirection: "row",
@@ -82,10 +110,3 @@ const themedStyles = StyleService.create({
     height: 24,
   },
 });
-const DATA = [
-  { id: 1, icon: "barChart1"},
-  { id: 2, icon: "exchange"},
-  { id: 3, icon: "logo" },
-  { id: 4, icon: "search" },
-  { id: 5, icon: "creditCard" },
-];

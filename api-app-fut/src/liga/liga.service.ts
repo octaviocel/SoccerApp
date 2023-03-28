@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { CreateLigaDto } from './dto/create-liga.dto';
 import { UpdateLigaDto } from './dto/update-liga.dto';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 
 @Injectable()
 export class LigaService {
@@ -17,20 +17,36 @@ export class LigaService {
     try {
       const { ...data } = createLigaDto;
 
-      const user = this.ligaRepository.create({
+      const liga = this.ligaRepository.create({
         ...data,
       });
 
-      await this.ligaRepository.save(user)
+      await this.ligaRepository.save(liga)
 
-      return { user }
+      return { liga }
     } catch (error) {
       this.handleDBErrors(error)
     }
   }
 
-  async findAll() {
+  async findAll(){
     return await this.ligaRepository.find();
+  }
+
+  async findAllLimit() {
+
+    const query = await this.ligaRepository
+      .createQueryBuilder('liga')
+      .select(["*"])
+      //.leftJoinAndSelect('liga.', 'equipo')
+      .addSelect("(SELECT COUNT(*) FROM equipo WHERE equipo.liga_id = liga.id)", "totalEquipos")
+      .limit(3)
+      .getRawMany();
+    //.getMany();
+
+    return query;
+    //return await this.ligaRepository.find();
+
   }
 
   async findOne(id: number) {

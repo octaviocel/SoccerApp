@@ -40,7 +40,8 @@ import { AuthModule } from './auth/auth.module';
     TarjetasAmarillasModule,
     TarjetasRojaModule,
     S3Module,
-    AuthModule,],
+  //  AuthModule,
+  ],
   controllers: [],
   providers: [],
 

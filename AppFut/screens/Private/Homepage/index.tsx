@@ -7,7 +7,7 @@ import {
   Button,
   Layout,
 } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import useLayout from "../../../hoooks/useLayout";
 
 import Text from "../../../components/Text";
@@ -18,9 +18,10 @@ import Market from "./Market";
 import BottomTab from "../Component/BottomTab";
 //import keyExtractor from "utils/keyExtractor";
 import ListPopular from "./ListPopular";
+import { AppParamList } from "../../../navigation/type";
 
 const Homepage = memo(() => {
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation<NavigationProp<AppParamList>>();
   const { height, width, top, bottom } = useLayout();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
@@ -39,7 +40,7 @@ const Homepage = memo(() => {
         style={[{ marginTop: top }]}
         appearance={"control"}
         iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user", _onPress: () => {} }}
+        iconRight={{ icon: "user", _onPress: () => { navigate ('Login')} }}
         title="MatchMate"
       />
       <FlatList
@@ -92,7 +93,7 @@ const Homepage = memo(() => {
           </>
         )}
       />
-      <BottomTab />
+      <BottomTab selectIndex={0} />
     </Container>
   );
 });
