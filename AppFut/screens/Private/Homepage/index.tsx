@@ -22,6 +22,7 @@ import { AppParamList } from "../../../navigation/type";
 import { Images } from "../../../assets/images";
 
 const Homepage = memo(() => {
+  
   type AppParamList = {
     NewsPage: undefined;
   };

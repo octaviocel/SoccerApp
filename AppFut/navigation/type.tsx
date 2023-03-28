@@ -27,6 +27,7 @@ export type AppParamList = {
   DetailTableLeague: { value: number } | undefined;
   FormLeague: undefined;
   MenuLeague: undefined ;
+  //DetailTableLeague: undefined;
   NewsPage: NavigatorScreenParams<CryptoStackParamList>;
 }
 
