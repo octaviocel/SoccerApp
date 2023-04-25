@@ -2,13 +2,13 @@ import React, { memo } from "react";
 import { Image, TouchableOpacity, ScrollView, View, Platform } from "react-native";
 import {
   TopNavigation,
-  StyleService,
+  StyleService, 
   useStyleSheet,
   Input,
   Button,
   Icon,
   Layout,
-  Datepicker,
+  Datepicker
 } from "@ui-kitten/components";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -22,23 +22,19 @@ import useLayout from "../../../hoooks/useLayout";
 import BottomTab from "../Component/BottomTab";
 
 
-export default function FormLeague() {
+export default function FormRegister() {
   // const navigation = useNavigation();
 
-  type AppParamList = {
-    HomePage: undefined;
-  };
+
 
   const [image, setImage] = React.useState<string | null>(null);
-  const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
+
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
   const [date, setDate] = React.useState(new Date());
-  const [file, setFile] = React.useState<FormData | undefined>();
+
   
-  const handleOnPress = () => {
-    navigate("HomePage");
-  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -86,7 +82,12 @@ export default function FormLeague() {
           Agregar Liga
         </Text>
         <Input
-          placeholder="Nombre"
+          placeholder="Correo Electrónico"
+          status="primary"
+          style={styles.input}
+        />
+        <Input
+          placeholder="Password"
           status="primary"
           style={styles.input}
         />
@@ -94,11 +95,10 @@ export default function FormLeague() {
           style={styles.input}
           date={date}
           onSelect={nextDate => setDate(nextDate)}
-          placeholder='Fecha de inicio'
         />
 
 
-        <View style={{ margin: 10, marginTop: 10, marginVertical: 24 }}>
+        <View style={{ margin: 10, marginTop: 10}}>
           <Button children="Quiero Una Subir Imagen" onPress={pickImage} />
           {image && (
             <Image
@@ -113,25 +113,13 @@ export default function FormLeague() {
           )}
         </View>
 
-        <Input
-          placeholder="Ubicación"
-          status="primary"
-          style={styles.input}
-        />
-
-        <Input
-          placeholder="Total de equipos"
-          status="primary"
-          style={styles.input}
-        />
-
         <View style={styles.buttons}>
+          <Button status='success' style={styles.buttonsLiga} children="Guardar" onPress={() => navigate("HomePage")} />
           <Button
             children="Cancelar"
             style={styles.buttonsLiga}
             status='danger'
           />
-          <Button status='success' style={styles.buttonsLiga} children="Guardar" onPress={() => navigate("HomePage")} />
         </View>
 
         <ScrollView

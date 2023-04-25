@@ -8,7 +8,7 @@ import {
   Button,
   Icon,
   Layout,
-  Datepicker,
+  Datepicker
 } from "@ui-kitten/components";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -22,23 +22,20 @@ import useLayout from "../../../hoooks/useLayout";
 import BottomTab from "../Component/BottomTab";
 
 
-export default function FormLeague() {
+export default function FormEquipo() {
   // const navigation = useNavigation();
 
   type AppParamList = {
     HomePage: undefined;
   };
 
-  const [image, setImage] = React.useState<string | null>(null);
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
   const [date, setDate] = React.useState(new Date());
   const [file, setFile] = React.useState<FormData | undefined>();
-  
-  const handleOnPress = () => {
-    navigate("HomePage");
-  };
+  const [image, setImage] = React.useState<string | null>(null);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -68,6 +65,8 @@ export default function FormLeague() {
     }
   };
 
+
+
   return (
     <Container style={styles.container}>
       <TopNavigation
@@ -83,22 +82,27 @@ export default function FormLeague() {
       />
       <Content style={styles.content}>
         <Text category="header">
-          Agregar Liga
+          Agregar Equipo
         </Text>
         <Input
           placeholder="Nombre"
           status="primary"
           style={styles.input}
         />
-        <Datepicker
+
+        <Input
+          placeholder="Entrenador"
+          status="primary"
           style={styles.input}
-          date={date}
-          onSelect={nextDate => setDate(nextDate)}
-          placeholder='Fecha de inicio'
         />
 
+        <Input
+          placeholder="Estadio"
+          status="primary"
+          style={styles.input}
+        />
 
-        <View style={{ margin: 10, marginTop: 10, marginVertical: 24 }}>
+        <View style={{ margin: 10, marginTop: 10 }}>
           <Button children="Quiero Una Subir Imagen" onPress={pickImage} />
           {image && (
             <Image
@@ -112,21 +116,14 @@ export default function FormLeague() {
             />
           )}
         </View>
-
         <Input
-          placeholder="Ubicación"
-          status="primary"
-          style={styles.input}
-        />
-
-        <Input
-          placeholder="Total de equipos"
+          placeholder="Liga"
           status="primary"
           style={styles.input}
         />
 
         <View style={styles.buttons}>
-          <Button
+        <Button
             children="Cancelar"
             style={styles.buttonsLiga}
             status='danger'
@@ -154,12 +151,19 @@ const themedStyles = StyleService.create({
   container: {
     flex: 1,
   },
+  equipos: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
   icon: {
     width: 98,
     height: 98,
     marginLeft: 40,
   },
   buttons: {
+    marginTop: 24,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -177,6 +181,15 @@ const themedStyles = StyleService.create({
   },
   input: {
     marginVertical: 24,
+  },
+  inputEquipo: {
+    width: 160,
+  },
+  inputOb: {
+    height: 98,
+  },
+  inputFecha: {
+    width: 160,
   },
   wallet: {
     marginTop: 16,
