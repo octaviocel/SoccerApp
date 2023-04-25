@@ -46,8 +46,8 @@ export class Equipopartido {
     @JoinColumn({ name: 'visita_id' })
     equipoVisita: Equipo;
 
-    @Column()
-    fecha: Date;
+    @Column({ type: 'date' })
+    fecha : string;
 
     @Column({ type: 'time', precision: 0 })
     hora: string;
@@ -60,6 +60,9 @@ export class Equipopartido {
 
     @Column({ type: 'text' })
     observaciones: string;
+
+    @Column()
+    finalizado: boolean;
 
     @CreateDateColumn()
     createdAt: Date;

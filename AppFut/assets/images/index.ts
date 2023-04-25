@@ -235,4 +235,6 @@ export const Images = {
   futbol: require("./futbol.png"),
   mexico : require("./mexico.png"),
   aire : require("./aire.png"),
+  userProfile : require("./profile.gif"),
+  liga: require('./liga.png'),
 };

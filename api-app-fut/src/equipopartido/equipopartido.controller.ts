@@ -19,6 +19,11 @@ export class EquipopartidoController {
     return this.equipopartidoService.findAll();
   }
 
+  @Get('pendientes')
+  findAllPendientes() {
+    return this.equipopartidoService.findPartidosPendiente();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.equipopartidoService.findOne(+id);

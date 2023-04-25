@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { Rol } from './../rol/entities/rol.entity';
 import { Usuario } from './entities/usuario.entity';
@@ -13,7 +14,9 @@ export class UsuarioService {
 
   constructor(
     @InjectRepository(Usuario)
-    private readonly userRepository: Repository<Usuario>
+    private readonly userRepository: Repository<Usuario>,
+
+    private readonly authService: AuthService,
   ) { }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
@@ -27,7 +30,7 @@ export class UsuarioService {
 
       await this.userRepository.save(user)
 
-      return { user }
+      return { ...user, token: this.authService.getJwtToken({ id: user.id }) }
     } catch (error) {
       this.handleDBErrors(error)
     }
@@ -60,7 +63,7 @@ export class UsuarioService {
     if (!user) {
       throw new NotFoundException("Fail Removing")
     }
-    
+
     await this.userRepository.delete(user);
 
     return { message: "Delete Succesfully" }

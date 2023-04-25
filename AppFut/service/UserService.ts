@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpClient from "./httpClient";
 
-const prefix = 'usuario';
+const prefix = 'auth';
 
 type PropsLogin = {
     email: string,

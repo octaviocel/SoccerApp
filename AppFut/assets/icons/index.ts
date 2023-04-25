@@ -116,4 +116,5 @@ export const Icons = {
   liga: require("./liga.png"),
   liga1: require("./liga1.png"),
   serieA: require("./serieA.png"),
+  trasnparente: require("./transparenye.png")
 };

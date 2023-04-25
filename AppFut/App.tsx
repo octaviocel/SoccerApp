@@ -22,6 +22,8 @@ import { default as customTheme } from "./constants/theme/appTheme.json";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
+import { ToastProvider } from "react-native-toast-notifications";
+
 export default function App() {
   const [theme, setTheme] = React.useState<"light" | "dark">("dark");
 
@@ -44,32 +46,34 @@ export default function App() {
     return null;
   } else {
     return (
-      <Provider store={store}>
-        <SafeAreaProvider>
-          <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            <IconRegistry icons={[EvaIconsPack, AssetIconsPack]} />
-            <ApplicationProvider
-              {...eva}
-              theme={
-                theme === "light"
-                  ? { ...eva.light, ...customTheme, ...lightTheme }
-                  : { ...eva.dark, ...customTheme, ...darkTheme }
-              }
-              /* @ts-ignore */
-              customMapping={customMapping}
-            >
-              <SafeAreaProvider>
-                <StatusBar
-                  style={theme === "light" ? "dark" : "light"}
-                  translucent={true}
-                  backgroundColor={"#00000000"}
-                />
-                <AppContainer />
-              </SafeAreaProvider>
-            </ApplicationProvider>
-          </ThemeContext.Provider>
-        </SafeAreaProvider>
-      </Provider>
+      <ToastProvider>
+        <Provider store={store}>
+          <SafeAreaProvider>
+            <ThemeContext.Provider value={{ theme, toggleTheme }}>
+              <IconRegistry icons={[EvaIconsPack, AssetIconsPack]} />
+              <ApplicationProvider
+                {...eva}
+                theme={
+                  theme === "light"
+                    ? { ...eva.light, ...customTheme, ...lightTheme }
+                    : { ...eva.dark, ...customTheme, ...darkTheme }
+                }
+                /* @ts-ignore */
+                customMapping={customMapping}
+              >
+                <SafeAreaProvider>
+                  <StatusBar
+                    style={theme === "light" ? "dark" : "light"}
+                    translucent={true}
+                    backgroundColor={"#00000000"}
+                  />
+                  <AppContainer />
+                </SafeAreaProvider>
+              </ApplicationProvider>
+            </ThemeContext.Provider>
+          </SafeAreaProvider>
+        </Provider>
+      </ToastProvider>
     );
   }
 }

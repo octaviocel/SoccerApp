@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { Image, TouchableOpacity, ScrollView } from "react-native";
 import {
   TopNavigation,
@@ -17,23 +17,54 @@ import ButtonText from "../../components/ButtonText";
 //import { SignIn01_Data } from "./SignIn01";
 import useLayout from "../../hoooks/useLayout";
 import { AppParamList, RootStackParamList } from "../../navigation/type";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { login } from "../../service/UserService";
 
 const Login = memo(() => {
- // const navigation = useNavigation();
- 
- type AppParamList = {
-  HomePage: undefined;
-};
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { navigate, goBack } =   useNavigation<NavigationProp<AppParamList>>();
+  const { currentUser, loading , userToken} = useSelector(
+    (state: RootState) => state.user
+  );
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const iniciarSesion = () => {
+    const user = {
+      email: username,
+      password: password,
+    };
+
+    dispatch(login(user));
+
+    
+  };
+
+  const printtttt = ()=>{
+    console.log(username)
+    console.log(password)
+  }
+
+  const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
+
+  //if (currentUser) return navigate('HomePage');
+  
+  if(userToken){
+    navigate('HomePage')
+  }
   return (
+    
     <Container style={styles.container}>
       <TopNavigation
         accessoryLeft={() => (
-          <TouchableOpacity >
-            <Image marginTop={46}
+          <TouchableOpacity>
+            <Image
+              marginTop={46}
               source={Images.futbol}
               /* @ts-ignore */
               style={styles.icon}
@@ -43,19 +74,28 @@ const Login = memo(() => {
       />
       <Content style={styles.content}>
         <Text category="header" marginTop={36} marginRight={100}>
-              MatchMate
+          MatchMate
         </Text>
         <Input
           placeholder="Correo Electrónico"
+          value={username}
+          onChangeText={(nextValue) => setUsername(nextValue)}
           status="primary"
           style={styles.input}
         />
         <Input
           placeholder="Password"
+          value={password}
+          onChangeText={(nextValue) => setPassword(nextValue)}
           status="primary"
           style={styles.input}
         />
-        <Button status='warning' style={styles.wallet} children="Iniciar Sesión" onPress={()=> navigate("HomePage")} />
+        <Button
+          status="warning"
+          style={styles.wallet}
+          children="Iniciar Sesión"
+          onPress={iniciarSesion}
+        />
         {/* <Button
           children="Connect Wallet"
           style={styles.wallet}
@@ -88,7 +128,10 @@ const Login = memo(() => {
           scrollEnabled={false}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[styles.btnImage, { paddingBottom: bottom +24, justifyContent: 'center'}]}
+          contentContainerStyle={[
+            styles.btnImage,
+            { paddingBottom: bottom + 24, justifyContent: "center" },
+          ]}
         >
           {/*SignIn01_Data.map((_, i) => {
             return <Image key={i} source={_.image} />;
@@ -96,6 +139,7 @@ const Login = memo(() => {
         </ScrollView>
       </Content>
     </Container>
+        
   );
 });
 
@@ -104,8 +148,8 @@ export default Login;
 const themedStyles = StyleService.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   icon: {
     width: 98,

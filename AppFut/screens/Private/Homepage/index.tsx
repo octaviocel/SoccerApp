@@ -23,9 +23,6 @@ import { Images } from "../../../assets/images";
 
 const Homepage = memo(() => {
   
-  type AppParamList = {
-    NewsPage: undefined;
-  };
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { height, width, top, bottom } = useLayout();
@@ -34,7 +31,7 @@ const Homepage = memo(() => {
   const keyExtractor = (item: any, index: number) => index.toString();
 
   const SIZE_PIG = 195.97 * (width / 375);
-
+ 
   return (
     <Container style={styles.container} useSafeArea={false}>
       <Image
@@ -46,7 +43,7 @@ const Homepage = memo(() => {
         style={[{ marginTop: top }]}
         appearance={"control"}
         iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user" }}
+        iconRight={{ icon: "user", _onPress(){navigate('Login')} }}
         title="MatchMate"
       />
       <FlatList
