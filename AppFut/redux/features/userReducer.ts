@@ -1,18 +1,34 @@
 import { login } from './../../service/UserService';
 import { createSlice } from '@reduxjs/toolkit';
 import * as SecureStore from 'expo-secure-store';
+import User from '../../models/User';
 
 
 const saveToken = async (token: string) => {
     return await SecureStore.setItemAsync("token", token);
 }
 
-const initialState = {
+const removeToken= async ()=>{
+    return await SecureStore.deleteItemAsync("token");
+}
+
+interface UserState {
+    currentUser: User | null
+    userToken: string | null
+    isLoading: boolean
+    isSignOut: boolean
+    loading: boolean
+    error: boolean
+}
+
+
+const initialState : UserState = {
     currentUser: null,
     userToken: null,
     isLoading: true,
     isSignOut: false,
-    loading: true
+    loading: true, 
+    error: false
 }
 
 const userSlide = createSlice({
@@ -29,7 +45,11 @@ const userSlide = createSlice({
         },
         signOut: (state) => {
             state.isSignOut = true;
-            state.userToken = null;
+            state.userToken = '';
+            state.currentUser= null;
+            state.loading=true;
+            removeToken();
+            //console.log("Se salio de sesion")
         }
     },
     extraReducers: (builder) => {
@@ -42,6 +62,7 @@ const userSlide = createSlice({
 
                 state.userToken = token;
                 state.isLoading = false;
+                state.currentUser = userData;
 
                 saveToken(token)
                     .then(() => {
@@ -49,8 +70,9 @@ const userSlide = createSlice({
                     })
             })
             .addCase(login.rejected, (state) => {
-                console.log("Error de loego")
+                console.log("Error de logeo")
                 state.isLoading = false;
+                state.error = true;
             })
     },
 

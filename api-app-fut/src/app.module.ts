@@ -30,6 +30,7 @@ import { AuthModule } from './auth/auth.module';
     dropSchema: process.env.DB_SYNC === 'true' ? true : false,
     logging: ['error'],
   }),
+    AuthModule,
     RolModule,
     UsuarioModule,
     LigaModule,
@@ -40,7 +41,7 @@ import { AuthModule } from './auth/auth.module';
     TarjetasAmarillasModule,
     TarjetasRojaModule,
     S3Module,
-  //  AuthModule,
+
   ],
   controllers: [],
   providers: [],

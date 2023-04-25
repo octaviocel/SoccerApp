@@ -28,8 +28,8 @@ export class CreateJugadorDto {
         description: 'Fecha de Nacimiento del Jugador',
         nullable: false,
     })
-    @IsDate()
-    fechaNacimiento: Date;
+    @IsString()
+    fechaNacimiento: string;
 
     @ApiProperty({
         description: 'Altura del Jugador en Metros',

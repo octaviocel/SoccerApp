@@ -1,5 +1,4 @@
 import { LoginUserDto } from './dto/login.dto';
-import { Usuario } from './../usuario/entities/usuario.entity';
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from "@nestjs/typeorm";
@@ -7,6 +6,7 @@ import { Repository } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 import { JWTPayload } from './interfaces/jwt-payload.interface';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
 
         const user = await this.userRespositor.findOne({
             where: { email },
-            select: { email: true, password: true, id: true, nombre: true },
+            select: { email: true, password: true, id: true, nombre: true, apepat: true , apemat: true},
         });
 
         if (!user) throw new UnauthorizedException('Credenciales incorrectas');

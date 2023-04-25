@@ -13,6 +13,8 @@ import { TableResponsive } from "../screens/Private/TableLeague";
 import MenuLeague from "../screens/Private/MenuLeague/Index";
 import NewsPage from "../screens/Private/News/indexNews";
 import FormLeague from "../screens/Private/Ligas/FormLeague";
+import Profile from "../screens/Private/Profile/Index";
+import Activities from "../screens/Private/Partidos/Activities";
 
 
 const Stack = createNativeStackNavigator<AppParamList>();
@@ -44,6 +46,8 @@ const AppContainer = () => {
           <Stack.Screen name="MenuLeague" component={MenuLeague} />
           <Stack.Screen name="FormLeague" component={FormLeague} />
           <Stack.Screen name="DetailTableLeague" component={TableResponsive} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Games" component={Activities} />
         </Stack.Navigator>
       </NavigationContainer>
     );

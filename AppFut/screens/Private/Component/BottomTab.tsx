@@ -37,9 +37,9 @@ const BottomTab = memo(({ selectIndex }: Props) => {
       icon: "exchange",
       navega: () => navigate("MenuLeague"),
     },
-    { id: 3, icon: "logo", navega: () => navigate("HomePage") },
+    { id: 3, icon: "logo", navega: () => navigate("Games") },
     { id: 4, icon: "search", navega: () => navigate("HomePage") },
-    { id: 5, icon: "creditCard", navega: () => navigate("HomePage") },
+    { id: 5, icon: "user", navega: () => navigate("Profile") },
   ];
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();

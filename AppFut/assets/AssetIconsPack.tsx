@@ -149,7 +149,7 @@ const AssetIconsPack: IconPack<ImageProps | SvgProps> = {
     liga : createIcon(Icons.liga),
     liga1 : createIcon(Icons.liga1),
     serieA : createIcon(Icons.serieA),
-
+    nada: createIcon(Icons.trasnparente)
   },
 };
 export default AssetIconsPack;

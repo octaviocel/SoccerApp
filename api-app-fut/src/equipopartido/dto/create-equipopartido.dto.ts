@@ -1,33 +1,36 @@
 import { Equipo } from './../../equipo/entities/equipo.entity';
 import { Usuario } from './../../usuario/entities/usuario.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
 export class CreateEquipopartidoDto {
 
     @ApiProperty({
         description: 'Arbitro que preside el partido',
         nullable: false,
     })
+    @IsNumber()
     arbitro_id: number;
 
     @ApiProperty({
         description: 'Id del equipo Local',
         nullable: false,
     })
+    @IsNumber()
     local_id: number;
 
      @ApiProperty({
         description: 'Id del equipo Visitante',
         nullable: false,
     })
+    @IsNumber()
     visita_id: number;
 
     @ApiProperty({
         description: 'Fecha en que se realiza',
         nullable: false,
     })
-    @IsDate()
-    fecha: Date;
+    @IsString()
+    fecha: string;
 
     @ApiProperty({
         description: 'Horario Asignado',
@@ -57,4 +60,11 @@ export class CreateEquipopartidoDto {
     })
     @IsString()
     observaciones: string;
+
+    @ApiProperty({
+        description: 'Si el partido ya concluyo',
+        nullable: false,
+    })
+    @IsBoolean()
+    finalizado: boolean;
 }

@@ -36,6 +36,7 @@ export async function createDummyData() {
         const Rol2exists = await checkIfRolExist(client, { descripcion: 'USUARIO' });
         const Rol3exists = await checkIfRolExist(client, { descripcion: 'ARBITRO' });
         const userExist = await checkIfUserExist(client, { email: 'admin@gmail.com' })
+        const userExist2 = await checkIfUserExist(client, { email: 'octa@gmail.com' })
 
         if (!Rolexists) {
             // si el conjunto de datos no existe, se inserta en la base de datos
@@ -57,6 +58,11 @@ export async function createDummyData() {
             const user = await client.query(`INSERT INTO USUARIO (NOMBRE,APEPAT,APEMAT,EMAIL,PASSWORD,ROL_ID) VALUES ($1,$2,$3,$4,$5,$6)`,
                 ['Admin','Admin','','admin@gmail.com', bcrypt.hashSync('123', 10), 1])
             console.log(`Data inserted: user root`);
+        }
+        if (!userExist2) {
+            const user = await client.query(`INSERT INTO USUARIO (NOMBRE,APEPAT,APEMAT,EMAIL,PASSWORD,ROL_ID) VALUES ($1,$2,$3,$4,$5,$6)`,
+                ['Octavio','Celaya','Ojeda','octa@gmail.com', bcrypt.hashSync('123', 10), 2])
+            console.log(`Data inserted: user client`);
         }
 
 

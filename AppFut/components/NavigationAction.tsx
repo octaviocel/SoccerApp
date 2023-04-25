@@ -161,6 +161,7 @@ const NavigationAction = memo(
             backgroundColor: backgroundColor,
           },
         ]}
+        
         icon={(props) => (
           <Icon
             {...props}

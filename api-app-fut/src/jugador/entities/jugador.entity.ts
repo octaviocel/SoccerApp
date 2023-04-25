@@ -17,7 +17,7 @@ export class Jugador {
     apeMat: string;
 
     @Column({ type: 'date' })
-    fechaNacimiento: Date;
+    fechaNacimiento: string;
 
     @Column({ type: 'double precision' })
     altura: number;
