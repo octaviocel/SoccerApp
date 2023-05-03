@@ -48,6 +48,7 @@ const AppContainer = () => {
           <Stack.Screen name="DetailTableLeague" component={TableResponsive} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Games" component={Activities} />
+          
         </Stack.Navigator>
       </NavigationContainer>
     );
