@@ -9,18 +9,19 @@ import {
   Layout,
   Datepicker,
 } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import useLayout from "../../../hoooks/useLayout";
 
 import Text from "../../../components/Text";
 import Container from "../../../components/Container";
 import BasicHeader from "../Component/BasicHeader";
 import * as ImagePicker from "expo-image-picker";
-
+import { AppParamList } from "../../../navigation/type";
 
 const FormPlayer = memo(() => {
-  <input type="file" />
-  const { goBack } = useNavigation();
+ 
+  const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
+
   const { height, width, top, bottom } = useLayout();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
@@ -43,14 +44,17 @@ const FormPlayer = memo(() => {
     if (!result.cancelled && result.uri) {
       try {
         const data = new FormData();
-        data.append("foto", JSON.stringify({
-          name: result.uri.split("ImagePicker/")[1],
-          type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
-          uri:
-            Platform.OS === "ios"
-              ? result.uri.replace("file://", "")
-              : result.uri,
-        }));
+        data.append(
+          "foto",
+          JSON.stringify({
+            name: result.uri.split("ImagePicker/")[1],
+            type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
+            uri:
+              Platform.OS === "ios"
+                ? result.uri.replace("file://", "")
+                : result.uri,
+          })
+        );
         // await ImagesService.uploadRN(data);
         setFile(data);
       } catch (error) {
@@ -59,7 +63,6 @@ const FormPlayer = memo(() => {
       setImage(result.uri);
     }
   };
-
 
   return (
     <Container style={styles.container} useSafeArea={false}>
@@ -72,7 +75,7 @@ const FormPlayer = memo(() => {
         style={[{ marginTop: top }]}
         appearance={"control"}
         iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user", _onPress: () => { } }}
+        iconRight={{ icon: "user", _onPress: () => {} }}
         title="Players"
       />
       <FlatList
@@ -125,7 +128,7 @@ const FormPlayer = memo(() => {
                 <Datepicker
                   style={styles.input}
                   date={date}
-                  onSelect={nextDate => setDate(nextDate)}
+                  onSelect={(nextDate) => setDate(nextDate)}
                 />
                 <Input
                   keyboardType="numeric"
@@ -160,38 +163,26 @@ const FormPlayer = memo(() => {
                   )}
                 </View>
 
-
-
                 <View style={styles.buttons}>
-                <Button
-                    children={() => (
-                      <Text category="subhead" status={"black"}>
-                        Cancelar
-                      </Text>
-                    )}
-                    style={styles.cancel}
-                    size={"50"}
+                  <Button
+                    children="Cancelar"
+                    style={styles.buttonsLiga}
+                    status="danger"
+                    onPress={goBack}
                   />
                   <Button
-                    children={() => (
-                      <Text category="subhead" status={"black"}>
-                        Guardar
-                      </Text>
-                    )}
-                    style={styles.save}
-                    size={"50"}
+                    status="success"
+                    style={styles.buttonsLiga}
+                    children="Guardar"
+                    onPress={() => navigate("Profile")}
                   />
                 </View>
-
-
               </View>
             </View>
             <Layout style={styles.topContent} />
-
           </>
         )}
       />
-
     </Container>
   );
 });
@@ -214,6 +205,10 @@ const themedStyles = StyleService.create({
   inputFecha: {
     width: 160,
   },
+  buttonsLiga: {
+    margin: 20,
+    width: 150,
+  },
   title: {
     marginTop: 8,
     marginBottom: 20,
@@ -227,13 +222,13 @@ const themedStyles = StyleService.create({
     width: 150,
     //marginLeft: 24,
     marginTop: 8,
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   save: {
     width: 150,
     //marginLeft: 24,
     marginTop: 8,
-    backgroundColor: 'green',
+    backgroundColor: "green",
   },
   content: {
     borderTopLeftRadius: 24,
@@ -242,8 +237,8 @@ const themedStyles = StyleService.create({
   },
   buttons: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });

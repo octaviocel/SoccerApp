@@ -8,8 +8,8 @@ const toke = null;
 
 //console.log(BASE_URL)
 const httpClient: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
-  //baseURL: "http://175.1.50.192:4000",
+  //baseURL: BASE_URL,
+  baseURL: "https://apifut.software4all.dev",
   headers: {
     "Content-Type": "application/json",
   },

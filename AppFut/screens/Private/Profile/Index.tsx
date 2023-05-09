@@ -53,7 +53,7 @@ const Profile = memo(() => {
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [selectedIndex2, setSelectedIndex2] = React.useState(0);
+  //const [selectedIndex2, setSelectedIndex2] = React.useState(0);
   const translationY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     translationY.value = event.contentOffset.y;
@@ -115,21 +115,44 @@ const Profile = memo(() => {
       duration: 4000,
       //offset: 30,
       animationType: "slide-in",
-      style:{
-        marginBottom:750
-      }
+      style: {
+        marginBottom: 750,
+      },
     });
   };
 
-  const logout = () =>{
+  const DATA = [
+    {
+      id: 0,
+      title: "Agregar Liga",
+      icon: "heart",
+      _onPress: () => navigate("FormLeague"),
+    },
+    {
+      id: 1,
+      title: "Agregar Equipo",
+      icon: "list",
+      _onPress: () => navigate("FormTeam"),
+    },
+    {
+      id: 2,
+      title: "Agregar Jugadores",
+      icon: "worldWide",
+      _onPress: () => navigate("FormPlayer"),
+    },
+    { id: 3, title: "Ver Estadísticas", icon: "eye" },
+    { id: 4, title: "Configuracion", icon: "settings" },
+  ];
+
+  const logout = () => {
     dispatch(signOut());
-    navigate('HomePage')
-  }
+    navigate("HomePage");
+  };
   //console.log(currentUser);
 
-  if(!currentUser){
-    tos('Necesitas Iniciar Sesión para Funciones Premiun');
-    navigate('HomePage');
+  if (!currentUser) {
+    tos("Necesitas Iniciar Sesión para Funciones Premiun");
+    navigate("HomePage");
   }
   if (!loading) {
     return (
@@ -224,14 +247,14 @@ const Profile = memo(() => {
                   <TouchableOpacity
                     key={i + item.title}
                     activeOpacity={0.7}
-                    onPress={() => setSelectedIndex2(i)}
+                    onPress={item._onPress}
                     style={[
                       styles.item,
                       {
                         backgroundColor:
-                          i === selectedIndex2
-                            ? theme["text-primary-color"]
-                            : "transparent",
+                          //  i === selectedIndex2
+                          //theme["text-primary-color"],
+                         "transparent",
                       },
                     ]}
                   >
@@ -242,16 +265,16 @@ const Profile = memo(() => {
                           name={item.icon}
                           style={{
                             tintColor:
-                              i === selectedIndex2
-                                ? theme["text-primary-color"]
-                                : theme["text-white-color"],
+                              // i === selectedIndex2
+                                //theme["text-primary-color"],
+                              theme["text-white-color"],
                           }}
                         />
                       </Layout>
                       <Text
                         marginLeft={16}
                         category="headline"
-                        status={i === selectedIndex2 ? "black" : "white"}
+                        status={"white"}
                       >
                         {item.title}
                       </Text>
@@ -263,9 +286,9 @@ const Profile = memo(() => {
                         styles.iconArr,
                         {
                           tintColor:
-                            i === selectedIndex2
-                              ? theme["text-black-color"]
-                              : theme["text-white-color"],
+                            // i === selectedIndex2
+                            // theme["text-black-color"],
+                            theme["text-white-color"],
                         },
                       ]}
                     />
@@ -373,11 +396,4 @@ const DATA_USER = {
 };
 const DATA_COLLECTION = [
   { id: 0, title: "Liga de las estrellas", image: Images.liga },
-];
-const DATA = [
-  { id: 0, title: "Agregar Liga", icon: "heart" },
-  { id: 1, title: "Agregar Equipo", icon: "list" },
-  { id: 2, title: "Agregar Jugadores", icon: "worldWide" },
-  { id: 3, title: "Ver Estadísticas", icon: "eye" },
-  { id: 4, title: "Configuracion", icon: "settings" },
 ];

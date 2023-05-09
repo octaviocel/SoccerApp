@@ -31,7 +31,6 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { login } from "../../service/UserService";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 
-import { BASE_URL } from "@env";
 
 const Login = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +47,7 @@ const Login = memo(() => {
       email: username,
       password: password,
     };
-    console.log(BASE_URL);
+    //console.log(BASE_URL);
     dispatch(login(user));
   };
 
