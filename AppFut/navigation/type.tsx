@@ -26,7 +26,11 @@ export type AppParamList = {
     | undefined;
   DetailTableLeague: { value: number } | undefined;
   FormLeague: undefined;
-  MenuLeague: undefined ;
+  FormRol : undefined;
+  FormPartido: undefined;
+  FormPlayer: undefined;
+  FormEquipo: undefined;
+  MenuLeague: undefined;
   Profile: undefined;
   NewsPage: undefined;
   Games: undefined;
@@ -36,6 +40,10 @@ export type InsideParamListScrens = {
   HomePage: undefined;
   NewsPage:undefined;
   FormLeague:undefined
+  FormRol : undefined;
+  FormPartido: undefined;
+  FormPlayer: undefined;
+  FormEquipo: undefined;
 }
 
 export type OnboardingParamList = {

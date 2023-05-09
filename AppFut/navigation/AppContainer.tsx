@@ -15,6 +15,10 @@ import NewsPage from "../screens/Private/News/indexNews";
 import FormLeague from "../screens/Private/Ligas/FormLeague";
 import Profile from "../screens/Private/Profile/Index";
 import Activities from "../screens/Private/Partidos/Activities";
+import FormRol from "../screens/Private/NuevoRol/FormRol";
+import FormPartido from "../screens/Private/Partidos/FormPartido";
+import FormPlayer from "../screens/Private/Players/FormPlayer";
+import FormEquipo from "../screens/Private/Equipos/FormEquipo";
 
 
 const Stack = createNativeStackNavigator<AppParamList>();
@@ -26,7 +30,7 @@ const AppContainer = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="HomePage"
+          initialRouteName="FormPartido"
         >
           {/* <Stack.Screen name="Term" component={Term} />
           <Stack.Screen name="Intro" component={Intro} />
@@ -45,6 +49,10 @@ const AppContainer = () => {
           <Stack.Screen name="HomePage" component={Homepage} />
           <Stack.Screen name="MenuLeague" component={MenuLeague} />
           <Stack.Screen name="FormLeague" component={FormLeague} />
+          <Stack.Screen name="FormRol" component={FormRol} />
+          <Stack.Screen name="FormPartido" component={FormPartido} />
+          <Stack.Screen name="FormPlayer" component={FormPlayer} />
+          <Stack.Screen name="FormEquipo" component={FormEquipo} />
           <Stack.Screen name="DetailTableLeague" component={TableResponsive} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Games" component={Activities} />
