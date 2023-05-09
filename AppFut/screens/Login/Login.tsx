@@ -1,11 +1,19 @@
 import React, { memo, useState } from "react";
-import { Image, TouchableOpacity, ScrollView } from "react-native";
+import {
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  View,
+  StyleSheet,
+} from "react-native";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Input,
   Button,
+  Icon,
+  IconElement,
 } from "@ui-kitten/components";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
@@ -21,11 +29,13 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { login } from "../../service/UserService";
+import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
+
 
 const Login = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { currentUser, loading , userToken} = useSelector(
+  const { currentUser, loading, userToken } = useSelector(
     (state: RootState) => state.user
   );
 
@@ -37,28 +47,37 @@ const Login = memo(() => {
       email: username,
       password: password,
     };
-
+    //console.log(BASE_URL);
     dispatch(login(user));
-
-    
   };
 
-  const printtttt = ()=>{
-    console.log(username)
-    console.log(password)
-  }
+  const printtttt = () => {
+    console.log(username);
+    console.log(password);
+  };
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
 
   //if (currentUser) return navigate('HomePage');
-  
-  if(userToken){
-    navigate('HomePage')
+
+  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+
+  const toggleSecureEntry = (): void => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
+  const renderIcon = (props: any): React.ReactElement => (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+      <Icon {...props} name={secureTextEntry ? "eye-off" : "eye"} />
+    </TouchableWithoutFeedback>
+  );
+
+  if (userToken) {
+    navigate("HomePage");
   }
   return (
-    
     <Container style={styles.container}>
       <TopNavigation
         accessoryLeft={() => (
@@ -79,12 +98,19 @@ const Login = memo(() => {
         <Input
           placeholder="Correo Electrónico"
           value={username}
-          onChangeText={(nextValue) => setUsername(nextValue)}
+          onChangeText={(nextValue) =>
+            setUsername(nextValue.toLocaleLowerCase())
+          }
           status="primary"
           style={styles.input}
+          textStyle={{ textTransform: "lowercase" }}
+          keyboardType="email-address"
         />
         <Input
           placeholder="Password"
+          // caption={renderCaption}
+          accessoryRight={renderIcon}
+          secureTextEntry={secureTextEntry}
           value={password}
           onChangeText={(nextValue) => setPassword(nextValue)}
           status="primary"
@@ -108,14 +134,14 @@ const Login = memo(() => {
           title="Regístrate"
           styleIcon={styles.iconArrow}
         />
-        <ButtonText
+        {/* <ButtonText
           category="call-out"
           status="primary"
           icon="rightChevron"
           title="¿Olvidaste tu contraseña?"
           styleIcon={styles.iconArrow}
           style={styles.btnText}
-        />
+        /> */}
         <ButtonText
           category="call-out"
           status="primary"
@@ -139,7 +165,6 @@ const Login = memo(() => {
         </ScrollView>
       </Content>
     </Container>
-        
   );
 });
 
@@ -177,5 +202,21 @@ const themedStyles = StyleService.create({
   },
   btnText: {
     marginTop: 24,
+  },
+  captionContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  captionIcon: {
+    width: 10,
+    height: 10,
+    marginRight: 5,
+  },
+  captionText: {
+    fontSize: 12,
+    fontWeight: "400",
+    fontFamily: "opensans-regular",
+    color: "#8F9BB3",
   },
 });

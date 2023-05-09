@@ -21,30 +21,23 @@ export type RootStackParamList = {
 
 export type AppParamList = {
   Login: undefined;
-  HomePage:
-    | NavigatorScreenParams<CryptoStackParamList>
-    | undefined;
+  HomePage: NavigatorScreenParams<CryptoStackParamList> | undefined;
   DetailTableLeague: { value: number } | undefined;
   FormLeague: undefined;
-  FormRol : undefined;
-  FormPartido: undefined;
-  FormPlayer: undefined;
-  FormEquipo: undefined;
   MenuLeague: undefined;
   Profile: undefined;
   NewsPage: undefined;
   Games: undefined;
-}
+  FormTeam: undefined;
+  FormPlayer: undefined;
+  FormGame: undefined;
+};
 
 export type InsideParamListScrens = {
   HomePage: undefined;
-  NewsPage:undefined;
-  FormLeague:undefined
-  FormRol : undefined;
-  FormPartido: undefined;
-  FormPlayer: undefined;
-  FormEquipo: undefined;
-}
+  NewsPage: undefined;
+  FormLeague: undefined;
+};
 
 export type OnboardingParamList = {
   Onboarding: undefined;

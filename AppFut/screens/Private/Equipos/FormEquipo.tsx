@@ -1,5 +1,11 @@
 import React, { memo } from "react";
-import { Image, TouchableOpacity, ScrollView, View, Platform } from "react-native";
+import {
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  View,
+  Platform,
+} from "react-native";
 import {
   TopNavigation,
   StyleService,
@@ -8,7 +14,7 @@ import {
   Button,
   Icon,
   Layout,
-  Datepicker
+  Datepicker,
 } from "@ui-kitten/components";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -20,14 +26,10 @@ import ButtonText from "../../../components/ButtonText";
 //import { SignIn01_Data } from "./SignIn01";
 import useLayout from "../../../hoooks/useLayout";
 import BottomTab from "../Component/BottomTab";
-
+import { AppParamList } from "../../../navigation/type";
 
 export default function FormEquipo() {
   // const navigation = useNavigation();
-
-  type AppParamList = {
-    HomePage: undefined;
-  };
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
@@ -47,14 +49,17 @@ export default function FormEquipo() {
     if (!result.cancelled && result.uri) {
       try {
         const data = new FormData();
-        data.append("foto", JSON.stringify({
-          name: result.uri.split("ImagePicker/")[1],
-          type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
-          uri:
-            Platform.OS === "ios"
-              ? result.uri.replace("file://", "")
-              : result.uri,
-        }));
+        data.append(
+          "foto",
+          JSON.stringify({
+            name: result.uri.split("ImagePicker/")[1],
+            type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
+            uri:
+              Platform.OS === "ios"
+                ? result.uri.replace("file://", "")
+                : result.uri,
+          })
+        );
         // await ImagesService.uploadRN(data);
         setFile(data);
       } catch (error) {
@@ -65,13 +70,11 @@ export default function FormEquipo() {
     }
   };
 
-
-
   return (
     <Container style={styles.container}>
       <TopNavigation
         accessoryLeft={() => (
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Image
               /*  source={Images.futbol}*/
               /* @ts-ignore */
@@ -81,26 +84,12 @@ export default function FormEquipo() {
         )}
       />
       <Content style={styles.content}>
-        <Text category="header">
-          Agregar Equipo
-        </Text>
-        <Input
-          placeholder="Nombre"
-          status="primary"
-          style={styles.input}
-        />
+        <Text category="header">Agregar Equipo</Text>
+        <Input placeholder="Nombre" status="primary" style={styles.input} />
 
-        <Input
-          placeholder="Entrenador"
-          status="primary"
-          style={styles.input}
-        />
+        <Input placeholder="Entrenador" status="primary" style={styles.input} />
 
-        <Input
-          placeholder="Estadio"
-          status="primary"
-          style={styles.input}
-        />
+        <Input placeholder="Estadio" status="primary" style={styles.input} />
 
         <View style={{ margin: 10, marginTop: 10 }}>
           <Button children="Quiero Una Subir Imagen" onPress={pickImage} />
@@ -116,36 +105,37 @@ export default function FormEquipo() {
             />
           )}
         </View>
-        <Input
-          placeholder="Liga"
-          status="primary"
-          style={styles.input}
-        />
+        <Input placeholder="Liga" status="primary" style={styles.input} />
 
         <View style={styles.buttons}>
-        <Button
+          <Button
             children="Cancelar"
             style={styles.buttonsLiga}
-            status='danger'
+            status="danger"
+            onPress={goBack}
           />
-          <Button status='success' style={styles.buttonsLiga} children="Guardar" onPress={() => navigate("HomePage")} />
+          <Button
+            status="success"
+            style={styles.buttonsLiga}
+            children="Guardar"
+            onPress={() => navigate("Profile")}
+          />
         </View>
 
         <ScrollView
           scrollEnabled={false}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[styles.btnImage, { paddingBottom: bottom + 24, justifyContent: 'center' }]}
-        >
-        </ScrollView>
+          contentContainerStyle={[
+            styles.btnImage,
+            { paddingBottom: bottom + 24, justifyContent: "center" },
+          ]}
+        ></ScrollView>
       </Content>
       <BottomTab selectIndex={4} />
     </Container>
   );
-};
-
-
-
+}
 
 const themedStyles = StyleService.create({
   container: {
@@ -153,9 +143,9 @@ const themedStyles = StyleService.create({
   },
   equipos: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
   icon: {
     width: 98,
@@ -165,10 +155,9 @@ const themedStyles = StyleService.create({
   buttons: {
     marginTop: 24,
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 
   buttonsLiga: {
