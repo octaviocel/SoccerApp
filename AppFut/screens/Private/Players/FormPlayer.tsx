@@ -17,9 +17,10 @@ import Container from "../../../components/Container";
 import BasicHeader from "../Component/BasicHeader";
 import * as ImagePicker from "expo-image-picker";
 import { AppParamList } from "../../../navigation/type";
+import BottomTab from "../Component/BottomTab";
 
 const FormPlayer = memo(() => {
- 
+
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
 
   const { height, width, top, bottom } = useLayout();
@@ -75,7 +76,7 @@ const FormPlayer = memo(() => {
         style={[{ marginTop: top }]}
         appearance={"control"}
         iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user", _onPress: () => {} }}
+        iconRight={{ icon: "user", _onPress: () => { } }}
         title="Players"
       />
       <FlatList
@@ -183,6 +184,7 @@ const FormPlayer = memo(() => {
           </>
         )}
       />
+      <BottomTab selectIndex={0} />
     </Container>
   );
 });

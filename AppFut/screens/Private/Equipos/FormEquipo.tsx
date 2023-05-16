@@ -71,7 +71,7 @@ export default function FormEquipo() {
   };
 
   return (
-    <Container style={styles.container}>
+    <Container style={styles.container} useSafeArea={false}>
       <TopNavigation
         accessoryLeft={() => (
           <TouchableOpacity>
@@ -132,7 +132,7 @@ export default function FormEquipo() {
           ]}
         ></ScrollView>
       </Content>
-      <BottomTab selectIndex={4} />
+      <BottomTab selectIndex={0} />
     </Container>
   );
 }
