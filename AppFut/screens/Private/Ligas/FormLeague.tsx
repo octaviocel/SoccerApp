@@ -75,7 +75,7 @@ export default function FormLeague() {
   };
 
   return (
-    <Container style={styles.container}>
+    <Container style={styles.container} useSafeArea={false}>
       <TopNavigation
         accessoryLeft={() => (
           <TouchableOpacity>
@@ -87,7 +87,7 @@ export default function FormLeague() {
           </TouchableOpacity>
         )}
       />
-      <Content style={styles.content}>
+      <Content style={styles.content} >
         <Text category="header">Agregar Liga</Text>
         <Input placeholder="Nombre" status="primary" style={styles.input} />
         <Datepicker
@@ -145,8 +145,10 @@ export default function FormLeague() {
           ]}
         ></ScrollView>
       </Content>
-      <BottomTab selectIndex={4} />
+        <BottomTab selectIndex={0} />
     </Container>
+    
+  
   );
 }
 
