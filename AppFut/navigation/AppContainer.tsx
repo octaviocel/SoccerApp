@@ -17,6 +17,7 @@ import Activities from "../screens/Private/Partidos/Activities";
 import FormEquipo from "../screens/Private/Equipos/FormEquipo";
 import FormPlayer from "../screens/Private/Players/FormPlayer";
 import FormPartido from "../screens/Private/Partidos/FormPartido";
+import TableEstadisticas from "../screens/Private/Estadisticas/TableEstadisticas";
 
 const Stack = createNativeStackNavigator<AppParamList>();
 
@@ -48,6 +49,7 @@ const AppContainer = () => {
         <Stack.Screen name="DetailTableLeague" component={TableResponsive} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Games" component={Activities} />
+        <Stack.Screen name="Estadisticas" component={TableEstadisticas} />
 
         {
           //Formularios

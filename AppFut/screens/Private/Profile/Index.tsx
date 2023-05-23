@@ -37,6 +37,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { AppParamList } from "../../../navigation/type";
 import { signOut } from "../../../redux/features/userReducer";
 import { useDispatch } from "react-redux";
+import { _ } from "numeral";
 
 const Profile = memo(() => {
   const { height, width, top, bottom } = useLayout();
@@ -140,7 +141,7 @@ const Profile = memo(() => {
       icon: "worldWide",
       _onPress: () => navigate("FormPlayer"),
     },
-    { id: 3, title: "Ver Estadísticas", icon: "eye" },
+    { id: 3, title: "Ver Estadísticas", icon: "eye", _onPress: () => navigate("Estadisticas")},
     { id: 4, title: "Configuracion", icon: "settings" },
   ];
 

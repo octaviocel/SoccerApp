@@ -31,6 +31,7 @@ export type AppParamList = {
   FormTeam: undefined;
   FormPlayer: undefined;
   FormGame: undefined;
+  Estadisticas: undefined;
 };
 
 export type InsideParamListScrens = {
