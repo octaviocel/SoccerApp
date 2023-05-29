@@ -6,10 +6,14 @@ import {
   Delete,
   UseInterceptors,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { S3Service } from './s3.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadedFile } from '@nestjs/common/decorators';
+import { Body, Request, UploadedFile } from '@nestjs/common/decorators';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import { extname } from 'path';
 
 //import { ValidRoles } from 'src/auth/dto/valid-roles.interface';
 //import { Auth } from 'src/auth/decorators/auth.decorator';
@@ -22,13 +26,17 @@ export class S3Controller {
   //@Auth(ValidRoles.admin)
   @UseInterceptors(FileInterceptor('file'))
   create(@UploadedFile() file: Express.Multer.File) {
+    //create(@Body() body: any) {
+
     const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+
+    //console.log(file)
 
     if (!allowedMimeTypes.includes(file.mimetype)) {
       throw new BadRequestException('Invalid file type');
     }
 
-    return this.s3Service.create(file);
+    return this.s3Service.create(file)
   }
 
   @Get(':key')

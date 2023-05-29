@@ -1,10 +1,11 @@
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { Liga } from './entities/liga.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, BadRequestException, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateLigaDto } from './dto/create-liga.dto';
 import { UpdateLigaDto } from './dto/update-liga.dto';
 import { Repository, getRepository } from 'typeorm';
+import { deletePhoto } from 'src/s3/s3.service';
 
 @Injectable()
 export class LigaService {
@@ -14,8 +15,19 @@ export class LigaService {
   ) { }
 
   async create(createLigaDto: CreateLigaDto) {
+
+    // return this.ligaRepository.create(
+    //   await this.ligaRepository.save(createLigaDto),
+    // );
     try {
+      // const logger = new Logger('Liga');
+      // logger.log("Creando ");
+      // logger.log(createLigaDto);
+      // console.log(createLigaDto);
+      // console.log("Creando ")
       const { ...data } = createLigaDto;
+
+      //console.log(data)
 
       const liga = this.ligaRepository.create({
         ...data,
@@ -29,7 +41,7 @@ export class LigaService {
     }
   }
 
-  async findAll(){
+  async findAll() {
     return await this.ligaRepository.find();
   }
 
@@ -71,13 +83,17 @@ export class LigaService {
   }
 
   async remove(id: number) {
-    const user = await this.findOne(id);
+    const user = await this.ligaRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException("Fail Removing")
     }
+    
+    if(user){
+      await deletePhoto(user.foto);
+    }
 
-    await this.ligaRepository.delete(user);
+    await this.ligaRepository.delete(id);
 
     return { message: "Delete Succesfully" }
   }

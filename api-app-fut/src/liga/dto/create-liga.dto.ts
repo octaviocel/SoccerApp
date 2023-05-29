@@ -1,4 +1,4 @@
-import { IsString, IsDate } from 'class-validator';
+import { IsString, IsDate, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class CreateLigaDto {
     @ApiProperty({
@@ -30,4 +30,10 @@ export class CreateLigaDto {
     @IsString()
     ubicacion: string;
 
+    @ApiProperty({
+        description: 'Usuario que creo la liga',
+        nullable: false,
+    })
+    @IsNumber()
+    user_id: number;
 }

@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Liga } from "src/liga/entities/liga.entity";
 import { Rol } from "src/rol/entities/rol.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Usuario {
@@ -68,4 +69,7 @@ export class Usuario {
 
     @UpdateDateColumn()
     updateAt: Date;
+
+    @OneToMany(() => Liga, (liga) => liga.user)
+    usuarios: Usuario[];
 }

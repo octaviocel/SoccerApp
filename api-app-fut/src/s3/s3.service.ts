@@ -7,6 +7,8 @@ import {
 } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import * as fs from 'fs';
+import { remove } from 'fs-extra';
 
 @Injectable()
 export class S3Service {
@@ -24,15 +26,16 @@ export class S3Service {
     this.bucketName = process.env.AWS_S3_NAME;
   }
 
-  async create(file: Express.Multer.File) {
-    const { originalname, buffer, mimetype } = file;
+  async create(file: any) {
+    const { originalname, buffer, mimetype, path } = file;
+    //console.log(Buffer.from(fs.readFileSync(file.path)))
     const uuid = uuidv4();
     const originalnameReal = `${uuid}`;
 
     const command = new PutObjectCommand({
       Bucket: this.bucketName,
       Key: originalnameReal,
-      Body: buffer,
+      Body: Buffer.from(fs.readFileSync(path)),
       ContentType: mimetype,
     });
 
@@ -62,7 +65,7 @@ export class S3Service {
       console.log(response);
       return { message: 'Imagen eliminada' };
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new Error(error);
     }
   }
@@ -77,4 +80,9 @@ export class S3Service {
     });
     return signedUrl;
   }
+}
+
+export async function deletePhoto(key: string){
+  await remove(key);
+  console.log("Imagen eliminada")
 }
