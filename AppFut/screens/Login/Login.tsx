@@ -30,6 +30,7 @@ import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { login } from "../../service/UserService";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
+import { useToast } from "react-native-toast-notifications";
 
 
 const Login = memo(() => {
@@ -45,16 +46,21 @@ const Login = memo(() => {
   const iniciarSesion = () => {
     const user = {
       email: username,
+      
       password: password,
     };
     //console.log(BASE_URL);
     dispatch(login(user));
   };
 
+  const toast = useToast();
+
   const printtttt = () => {
     console.log(username);
     console.log(password);
   };
+
+  
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
@@ -75,7 +81,17 @@ const Login = memo(() => {
   );
 
   if (userToken) {
-    navigate("HomePage");
+    navigate("Profile");
+    toast.show("Bienvenido "+ currentUser?.nombre, {
+      type: "success",  
+      placement: "bottom",
+      duration: 4000,
+      //offset: 30,
+      animationType: "slide-in",
+      style: {
+        marginBottom: 50,
+      },
+    });
   }
   return (
     <Container style={styles.container}>

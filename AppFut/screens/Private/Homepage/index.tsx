@@ -20,9 +20,13 @@ import ListPopular from "./ListPopular";
 import { AppParamList } from "../../../navigation/type";
 
 import { Images } from "../../../assets/images";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const Homepage = memo(() => {
-  
+  const { currentUser, userToken } = useSelector(
+    (state: RootState) => state.user
+  );
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { height, width, top, bottom } = useLayout();
@@ -31,7 +35,7 @@ const Homepage = memo(() => {
   const keyExtractor = (item: any, index: number) => index.toString();
 
   const SIZE_PIG = 195.97 * (width / 375);
- 
+
   return (
     <Container style={styles.container} useSafeArea={false}>
       <Image
@@ -39,13 +43,36 @@ const Homepage = memo(() => {
         /* @ts-ignore */
         style={[styles.bg, { width: width, height: height / 2 }]}
       />
-      <BasicHeader
-        style={[{ marginTop: top }]}
-        appearance={"control"}
-        iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user", _onPress(){navigate('Login')} }}
-        title="MatchMate"
-      />
+      {userToken ? (
+        <BasicHeader
+          style={[{ marginTop: top }]}
+          appearance={"control"}
+          iconLeft={{ icon: "drawMenu" }}
+          iconRight={{
+            icon: "user",
+            _onPress() {
+              navigate("Profile");
+            },
+          }}
+          title="MatchMate"
+        />
+      ) : (
+        <>
+          <BasicHeader
+            style={[{ marginTop: top }]}
+            appearance={"control"}
+            iconLeft={{ icon: "drawMenu" }}
+            iconRight={{
+              icon: "user",
+              _onPress() {
+                navigate("Login");
+              },
+            }}
+            title="MatchMate"
+          />
+        </>
+      )}
+
       <FlatList
         data={[1]}
         showsVerticalScrollIndicator={false}
@@ -108,10 +135,10 @@ const themedStyles = StyleService.create({
   container: {
     flex: 1,
   },
-  noticias:{
+  noticias: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   bg: {
     position: "absolute",

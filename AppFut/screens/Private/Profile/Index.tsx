@@ -1,6 +1,12 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import useLayout from "../../../hoooks/useLayout";
-import { View, ImageBackground, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import {
   TopNavigation,
   StyleService,
@@ -38,6 +44,8 @@ import { AppParamList } from "../../../navigation/type";
 import { signOut } from "../../../redux/features/userReducer";
 import { useDispatch } from "react-redux";
 import { _ } from "numeral";
+import Modal from "../Component/Modal";
+import ReactNativeModal from "react-native-modal";
 
 const Profile = memo(() => {
   const { height, width, top, bottom } = useLayout();
@@ -141,9 +149,16 @@ const Profile = memo(() => {
       icon: "worldWide",
       _onPress: () => navigate("FormPlayer"),
     },
-    { id: 3, title: "Ver Estadísticas", icon: "eye", _onPress: () => navigate("Estadisticas")},
+    {
+      id: 3,
+      title: "Ver Estadísticas",
+      icon: "eye",
+      _onPress: () => navigate("Estadisticas"),
+    },
     { id: 4, title: "Configuracion", icon: "settings" },
   ];
+
+  const [modalVisible, setModalVisible] = useState(true);
 
   const logout = () => {
     dispatch(signOut());
@@ -153,6 +168,7 @@ const Profile = memo(() => {
 
   if (!currentUser) {
     tos("Necesitas Iniciar Sesión para Funciones Premiun");
+
     navigate("HomePage");
   }
   if (!loading) {
@@ -255,7 +271,7 @@ const Profile = memo(() => {
                         backgroundColor:
                           //  i === selectedIndex2
                           //theme["text-primary-color"],
-                         "transparent",
+                          "transparent",
                       },
                     ]}
                   >
@@ -267,7 +283,7 @@ const Profile = memo(() => {
                           style={{
                             tintColor:
                               // i === selectedIndex2
-                                //theme["text-primary-color"],
+                              //theme["text-primary-color"],
                               theme["text-white-color"],
                           }}
                         />
@@ -386,6 +402,27 @@ const themedStyles = StyleService.create({
     borderRadius: 24,
     padding: 24,
     flexDirection: "row",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 const DATA_USER = {

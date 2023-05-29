@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import {
   useTheme,
@@ -44,7 +44,6 @@ const BottomTab = memo(({ selectIndex }: Props) => {
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
 
-  
 
   return (
     <Layout style={[styles.container, { paddingBottom: bottom }]} level={"2"}>

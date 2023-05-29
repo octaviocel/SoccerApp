@@ -1,21 +1,39 @@
-import httpClient from "./httpClient";
+import { Platform } from "react-native";
+import httpClient, { httpFormDataClient } from "./httpClient";
 
-const prefix ='s3';
+const prefix = '/s3';
 
-export default class S3Service{
+interface ImageData {
+  name: string;
+  type: string;
+  uri: string;
+}
 
-    static async create(file:any) {
-        let data = new FormData();
-        data.append("foto", file);
-    
-        return (await httpClient.post(prefix, data)).data;
-      }
-    
-      static async get(key:any) {
-        return (await httpClient.get(prefix + "/" + key)).data;
-      }
-    
-      static async delete(key:any) {
-        return (await httpClient.delete(prefix + "/" + key)).data;
-      }
+export default class S3Service {
+
+  static async create(data: any) {
+    const { fileName, type, uri } = data;
+
+   // const blob = new Blob([uri], { type });
+
+    const foto = new FormData();
+    //foto.append('file', blob, fileName);
+    foto.append('file',{
+      uri: uri,
+      name: fileName,
+      fileName: fileName,
+      type: type
+    }as any)
+    console.log(foto);
+
+    return (await httpFormDataClient.post(prefix, foto)).data;
+  }
+
+  static async get(key: any) {
+    return (await httpClient.get(prefix + "/" + key)).data;
+  }
+
+  static async delete(key: any) {
+    return (await httpClient.delete(prefix + "/" + key)).data;
+  }
 }

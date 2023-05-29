@@ -1,4 +1,4 @@
-import { getAllLigas, getAllLigasLimit } from './../../service/LigasService';
+import { getAllLigas, getAllLigasLimit, createLiga } from './../../service/LigasService';
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import Liga from "../../models/Liga";
 
@@ -52,6 +52,20 @@ export const ligaSlice = createSlice({
                 //console.log()
                 state.error = true;
                 state.fetched = true;
+            });
+        builder
+            .addCase(createLiga.pending, (state) => {
+                state.fetched = false;
+                //console.log(state)
+            })
+            .addCase(createLiga.fulfilled, (state, action) => {
+                state.fetched = true;
+                state.ligas.push(action.payload);
+            })
+            .addCase(createLiga.rejected, (state) => {
+                state.error = true;
+                state.fetched = true;
+                //console.log(state)
             });
     }
 })

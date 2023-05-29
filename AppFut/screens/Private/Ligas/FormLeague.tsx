@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import {
   Image,
   TouchableOpacity,
@@ -27,16 +27,40 @@ import ButtonText from "../../../components/ButtonText";
 import useLayout from "../../../hoooks/useLayout";
 import BottomTab from "../Component/BottomTab";
 import { AppParamList } from "../../../navigation/type";
+import S3Service from "../../../service/S3Service";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch } from "react-redux";
+import LigaService, { createLiga } from "../../../service/LigasService";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useToast } from "react-native-toast-notifications";
+import { useSelector } from "react-redux";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function FormLeague() {
   // const navigation = useNavigation();
+
+  const toast = useToast();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [loading, setLoading] = useState(false);
+
+  const { currentUser } = useSelector((state: RootState) => state.user);
+
+  const [data, setData] = useState({
+    nombre: "",
+    ubicacion: "",
+  });
 
   const [image, setImage] = React.useState<string | null>(null);
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
   const [date, setDate] = React.useState(new Date());
-  const [file, setFile] = React.useState<FormData | undefined>();
+  const currentYear = new Date().getFullYear();
+
+  const [file, setFile] = React.useState<any | null>(null);
 
   const handleOnPress = () => {
     navigate("HomePage");
@@ -50,27 +74,47 @@ export default function FormLeague() {
       quality: 1,
     });
 
-    if (!result.cancelled && result.uri) {
-      try {
-        const data = new FormData();
-        data.append(
-          "foto",
-          JSON.stringify({
-            name: result.uri.split("ImagePicker/")[1],
-            type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
-            uri:
-              Platform.OS === "ios"
-                ? result.uri.replace("file://", "")
-                : result.uri,
-          })
-        );
-        // await ImagesService.uploadRN(data);
-        setFile(data);
-      } catch (error) {
-        console.log(error);
-      }
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setFile(result.assets[0]);
+    }
+  };
 
-      setImage(result.uri);
+  const handleOnPressSave = async () => {
+    try {
+      setLoading(true);
+      //console.log(file);
+      const subir = await S3Service.create(file);
+      //console.log(subir);
+
+      if (subir && currentUser) {
+        const dataSend = {
+          nombre: data.nombre,
+          ubicacion: data.ubicacion,
+          fechaFundacion: date.toISOString().split("T")[0],
+          foto: subir.id,
+          user_id: currentUser.id,
+        };
+
+        //*const response = await LigaService.createLiga2(dataSend);
+        const response = dispatch(createLiga(dataSend));
+        console.log(response);
+        toast.show("Liga creada correctamente", {
+          type: "success",
+          placement: "bottom",
+          duration: 4000,
+          //offset: 30,
+          animationType: "slide-in",
+          style: {
+            marginBottom: 100,
+          },
+        });
+        goBack();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,54 +131,92 @@ export default function FormLeague() {
           </TouchableOpacity>
         )}
       />
-      <Content style={styles.content} >
+      <Content style={styles.content}>
         <Text category="header">Agregar Liga</Text>
-        <Input placeholder="Nombre" status="primary" style={styles.input} />
-        <Datepicker
-          style={styles.input}
-          date={date}
-          onSelect={(nextDate) => setDate(nextDate)}
-          placeholder="Fecha de inicio"
-        />
-
-        <View style={{ margin: 10, marginTop: 10, marginVertical: 24 }}>
-          <Button children="Quiero Una Subir Imagen" onPress={pickImage} />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{
-                width: 200,
-                height: 200,
-                alignSelf: "center",
-                margin: 15,
-              }}
+        {loading ? (
+          <>
+            <ActivityIndicator
+              size="large"
+              color="yellow"
+              style={{ height: 500 }}
             />
-          )}
-        </View>
+          </>
+        ) : (
+          <>
+            <KeyboardAwareScrollView>
+              <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
+                Nombre de la liga:
+              </Text>
+              <Input
+                placeholder="Nombre"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, nombre: text })}
+              />
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Fecha de Fundación:
+              </Text>
+              <Datepicker
+                style={styles.input}
+                date={date}
+                onSelect={(nextDate) => setDate(nextDate)}
+                min={new Date(currentYear - 30, 0, 1)} // Permitir selección de fechas de hasta 10 años atrás
+                max={new Date(currentYear + 1, 11, 31)} // Permitir selección de fechas de hasta 10 años adelante
+                placeholder="Fecha de inicio"
+              />
 
-        <Input placeholder="Ubicación" status="primary" style={styles.input} />
+              <Text style={{ marginTop: 15, fontSize: 15 }}>
+                Imagen de la liga:
+              </Text>
+              <View style={{ margin: 10, marginTop: 10, marginVertical: 24 }}>
+                <Button children="Subir Imagen" onPress={pickImage} />
+                {image && (
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      alignSelf: "center",
+                      margin: 15,
+                    }}
+                  />
+                )}
+              </View>
 
-        <Input
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Ubicaci&oacute;n de la liga:
+              </Text>
+              <Input
+                placeholder="Ubicación"
+                status="primary"
+                keyboardAppearance="default"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, ubicacion: text })}
+              />
+
+              {/* <Input
           placeholder="Total de equipos"
           status="primary"
           style={styles.input}
-        />
+        /> */}
 
-        <View style={styles.buttons}>
-          <Button
-            children="Cancelar"
-            style={styles.buttonsLiga}
-            status="danger"
-            onPress={goBack}
-          />
-          <Button
-            status="success"
-            style={styles.buttonsLiga}
-            children="Guardar"
-            onPress={() => navigate("Profile")}
-          />
-        </View>
-
+              <View style={styles.buttons}>
+                <Button
+                  children="Cancelar"
+                  style={styles.buttonsLiga}
+                  status="danger"
+                  onPress={goBack}
+                />
+                <Button
+                  status="success"
+                  style={styles.buttonsLiga}
+                  children="Guardar"
+                  onPress={handleOnPressSave}
+                />
+              </View>
+            </KeyboardAwareScrollView>
+          </>
+        )}
         <ScrollView
           scrollEnabled={false}
           horizontal
@@ -145,10 +227,8 @@ export default function FormLeague() {
           ]}
         ></ScrollView>
       </Content>
-        <BottomTab selectIndex={0} />
+      <BottomTab selectIndex={0} />
     </Container>
-    
-  
   );
 }
 

@@ -2,13 +2,14 @@ import { login } from './../../service/UserService';
 import { createSlice } from '@reduxjs/toolkit';
 import * as SecureStore from 'expo-secure-store';
 import User from '../../models/User';
+import { useToast } from 'react-native-toast-notifications';
 
 
 const saveToken = async (token: string) => {
     return await SecureStore.setItemAsync("token", token);
 }
 
-const removeToken= async ()=>{
+const removeToken = async () => {
     return await SecureStore.deleteItemAsync("token");
 }
 
@@ -22,12 +23,12 @@ interface UserState {
 }
 
 
-const initialState : UserState = {
+const initialState: UserState = {
     currentUser: null,
     userToken: null,
     isLoading: true,
     isSignOut: false,
-    loading: true, 
+    loading: true,
     error: false
 }
 
@@ -46,8 +47,8 @@ const userSlide = createSlice({
         signOut: (state) => {
             state.isSignOut = true;
             state.userToken = '';
-            state.currentUser= null;
-            state.loading=true;
+            state.currentUser = null;
+            state.loading = true;
             removeToken();
             //console.log("Se salio de sesion")
         }
@@ -67,6 +68,7 @@ const userSlide = createSlice({
                 saveToken(token)
                     .then(() => {
                         console.log("Logeado")
+                                                
                     })
             })
             .addCase(login.rejected, (state) => {

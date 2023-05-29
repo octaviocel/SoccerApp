@@ -6,10 +6,10 @@ import { BASE_URL } from "@env"
 const toke = null;
 //await SecureStore.getItemAsync("auth-token");
 
-//console.log(BASE_URL)
+console.log(BASE_URL)
 const httpClient: AxiosInstance = axios.create({
   //baseURL: BASE_URL,
-  baseURL: "https://apifut.software4all.dev",
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -59,33 +59,33 @@ const httpClient: AxiosInstance = axios.create({
 //   }
 // );
 
-// const httpFormDataClient = axios.create({
-//   baseURL: BASE_URL, // Server Address
-//   headers: {
-//     "Content-Type": "multipart/form-data",
-//   },
-// });
+const httpFormDataClient = axios.create({
+  baseURL: BASE_URL, // Server Address
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
-// httpFormDataClient.interceptors.request.use(
-//   async function (config: any) {
-//     const toke = await SecureStore.getItemAsync("auth-token");
-//     config.headers = {
-//       "Content-Type": "multipart/form-data",
-//     };
+httpFormDataClient.interceptors.request.use(
+  async function (config: any) {
+    const toke = await SecureStore.getItemAsync("auth-token");
+    config.headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+  
+    if (toke) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${toke}`,
+      };
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
-//     if (toke) {
-//       config.headers = {
-//         "Content-Type": "multipart/form-data",
-//         "auth-token": toke,
-//       };
-//     }
-//     return config;
-//   },
-//   function (error) {
-//     return Promise.reject(error);
-//   }
-// );
-
-// export { httpFormDataClient };
+export { httpFormDataClient };
 
 export default httpClient;

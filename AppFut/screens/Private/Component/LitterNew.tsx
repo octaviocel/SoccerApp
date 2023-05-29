@@ -49,13 +49,15 @@ const LitterNew = memo(({ item }: ItemProps) => {
           marginBottom={8}
           maxWidth={235 * (width / 375)}
         >
-          {item.nombre}
+          {item?.nombre}
         </Text>
         <View style={styles.timer}>
           <Icon pack="assets" name="time" style={styles.icTime} />
           <Text category="subhead" status={"placeholder"}>
             Fundada{" "}
-            {item.fechaFundacion
+            {item?.fechaFundacion
+              ?.split("T")[0]
+              .toString()
               .substring(0, 10)
               .split("-")
               .reverse()
@@ -64,7 +66,7 @@ const LitterNew = memo(({ item }: ItemProps) => {
         </View>
         <View style={styles.timer}>
           <Text category="subhead" status={"placeholder"}>
-            Ubicada: {item.ubicacion}
+            Ubicada: {item?.ubicacion}
           </Text>
         </View>
       </View>
