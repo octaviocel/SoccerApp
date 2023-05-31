@@ -5,9 +5,11 @@ import { UpdateEquipoDto } from './dto/update-equipo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equipo } from './entities/equipo.entity';
 import { Repository } from 'typeorm';
+import { getSigned } from 'src/s3/s3.service';
 
 @Injectable()
 export class EquipoService {
+
 
   constructor(
     @InjectRepository(Equipo)
@@ -43,6 +45,24 @@ export class EquipoService {
     return team;
   }
 
+  async findAllByLiga(id: number) {
+    const teams = await this.equipoRepository
+      .createQueryBuilder('equipo')
+      .select(['equipo.id', 'equipo.nombre', 'equipo.entrenador', 'equipo.estadio', 'equipo.logo', 'equipo.liga_id', 'equipo.createdAt', 'equipo.updateAt'])
+      .where('equipo.liga_id = :id', { id })
+      .getMany();
+
+    if (!teams) {
+      throw new NotFoundException(`Teams not Found`)
+    }
+
+    
+    for (const team of teams) {
+      team.logo = await getSigned(team.logo);
+    }
+
+    return teams;
+  }
   async update(id: number, updateEquipoDto: UpdateEquipoDto) {
     const find = await this.findOne(id);
     if (!find) {

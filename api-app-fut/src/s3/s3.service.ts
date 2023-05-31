@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import * as fs from 'fs';
 import { remove } from 'fs-extra';
+import { async } from 'rxjs';
 
 @Injectable()
 export class S3Service {
@@ -82,7 +83,13 @@ export class S3Service {
   }
 }
 
-export async function deletePhoto(key: string){
+export async function deletePhoto(key: string) {
   await remove(key);
   console.log("Imagen eliminada")
+}
+
+export async function getSigned(key: string) {
+  const s3 = new S3Service();
+  const url = await s3.getSignedUrl(key);
+  return url;
 }

@@ -22,6 +22,11 @@ export class EquipoController {
     return this.equipoService.findAll();
   }
 
+  @Get('liga/:id')
+  findAllByLiga(@Param('id') id: string) {
+    return this.equipoService.findAllByLiga(+id);
+  }
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.equipoService.findOne(+id);

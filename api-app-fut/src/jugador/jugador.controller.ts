@@ -19,6 +19,11 @@ export class JugadorController {
     return this.jugadorService.findAll();
   }
 
+  @Get('equipo/:id')
+  findAllByEquipo(@Param('id') id: string) {
+    return this.jugadorService.findAllByEquipo(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.jugadorService.findOne(+id);

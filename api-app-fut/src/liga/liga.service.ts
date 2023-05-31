@@ -5,10 +5,11 @@ import { Injectable, BadRequestException, InternalServerErrorException, Logger }
 import { CreateLigaDto } from './dto/create-liga.dto';
 import { UpdateLigaDto } from './dto/update-liga.dto';
 import { Repository, getRepository } from 'typeorm';
-import { deletePhoto } from 'src/s3/s3.service';
+import { deletePhoto, getSigned } from 'src/s3/s3.service';
 
 @Injectable()
 export class LigaService {
+
   constructor(
     @InjectRepository(Liga)
     private readonly ligaRepository: Repository<Liga>
@@ -61,6 +62,22 @@ export class LigaService {
 
   }
 
+  async findMyLeagues(id: number) {
+    const query = await this.ligaRepository
+      .createQueryBuilder('liga')
+      .where({ user_id: id })
+      .getMany();
+
+    //console.log(query)
+    for (const liga of query) {
+      liga.foto = await getSigned(liga.foto);
+    }
+
+    //console.log(query)
+    return query;
+    //return await this.ligaRepository.find();
+  }
+
   async findOne(id: number) {
     const user = await this.ligaRepository.findOneBy({ id });
     if (!user) {
@@ -88,8 +105,8 @@ export class LigaService {
     if (!user) {
       throw new NotFoundException("Fail Removing")
     }
-    
-    if(user){
+
+    if (user) {
       await deletePhoto(user.foto);
     }
 

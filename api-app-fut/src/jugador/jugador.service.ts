@@ -5,9 +5,11 @@ import { Injectable, BadRequestException, InternalServerErrorException } from '@
 import { CreateJugadorDto } from './dto/create-jugador.dto';
 import { UpdateJugadorDto } from './dto/update-jugador.dto';
 import { Repository } from 'typeorm';
+import { getSigned } from 'src/s3/s3.service';
 
 @Injectable()
 export class JugadorService {
+
   constructor(
     @InjectRepository(Jugador)
     private readonly jugadorRepository: Repository<Jugador>
@@ -42,6 +44,24 @@ export class JugadorService {
     return user;
   }
 
+  async findAllByEquipo(id: number) {
+    const players = await this.jugadorRepository
+      .createQueryBuilder('jugador')
+      .where('jugador.equipo_id = :id', { id })
+      .getMany();
+
+    if (!players) {
+      throw new NotFoundException(`Players not Found`)
+    }
+
+
+    for (const team of players) {
+      team.foto = await getSigned(team.foto);
+    }
+
+    return players;
+  }
+
   async update(id: number, updateJugadorDto: UpdateJugadorDto) {
     const player = await this.findOne(id)
 
@@ -61,7 +81,7 @@ export class JugadorService {
       throw new NotFoundException("Fail Removing")
     }
 
-    await this.jugadorRepository.delete(user);
+    await this.jugadorRepository.delete(id);
 
     return { message: "Delete Succesfully" }
   }

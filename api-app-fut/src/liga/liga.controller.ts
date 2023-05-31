@@ -19,10 +19,17 @@ export class LigaController {
     return this.ligaService.findAll();
   }
 
+  @Get('myleagues/:id')
+  findMyLeagues(@Param('id') id: string) {
+    return this.ligaService.findMyLeagues(+id);
+  }
+
   @Get('limit')
   findAllLimit() {
     return this.ligaService.findAllLimit();
   }
+
+  
 
   @Get(':id')
   findOne(@Param('id') id: string) {

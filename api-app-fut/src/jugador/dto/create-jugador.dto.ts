@@ -63,5 +63,6 @@ export class CreateJugadorDto {
         description: 'Equipo del jugador',
         nullable: false,
     })
+    @IsNumber()
     equipo_id: number;
 }
