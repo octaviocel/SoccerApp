@@ -149,6 +149,7 @@ const Login = memo(() => {
           icon="rightChevron"
           title="Regístrate"
           styleIcon={styles.iconArrow}
+          onPress={() => navigate("FormRegister")}
         />
         {/* <ButtonText
           category="call-out"
