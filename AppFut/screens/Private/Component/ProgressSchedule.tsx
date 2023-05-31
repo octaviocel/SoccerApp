@@ -75,9 +75,9 @@ const ProgressSchedule = ({ step, timeStep }: Props) => {
                 {des}
               </Text>
               <View style={styles.footerItem}>
-                <Text category="caption2">🖥️ 50+ videos</Text>
-                <Text category="caption2">⏰️ 12 hours</Text>
-                <Text category="caption2">👨🏻‍‍️ 509+ students</Text>
+                <Text category="caption2">🖥️ Transmisión</Text>
+                <Text category="caption2">⏰️ 12:00 pm</Text>
+                <Text category="caption2">👨🏻‍‍️ No jugado</Text>
               </View>
             </Layout>
           </View>
@@ -92,30 +92,33 @@ const ProgressSchedule = ({ step, timeStep }: Props) => {
         line={true}
         active={step >= 1}
         time={timeStep[0]}
-        title="Design System"
-        des="When an unknown printer took a galley of type and scrambled it to make a t specimen book"
+        title="Las Conchitas vs MessiLovers"
+        des="SIN MARCADOR
+      Partido correspondiente en la jornada 1 - LOCAL"
       />
       <Step
         line={true}
         active={step >= 2}
         time={timeStep[1]}
-        title="Color Theme"
-        des="When an unknown printer took a galley of type and scrambled it to make a t specimen book"
+        title="Las Conchitas vs RochasFC"
+        des="SIN MARCADOR
+        Partido correspondiente en la jornada 2 - VISITA"
       />
       <Step
         line={true}
         active={step >= 3}
         time={timeStep[2]}
-        title="Component"
-        des="When an unknown printer took a galley of type and scrambled it to make a t specimen book"
+        title="Las Conchitas vs Perlitas"
+        des="SIN MARCADOR
+        Partido correspondiente en la jornada 3 - LOCAL"
       />
-      <Step
+      {/* <Step
         line={true}
         active={step >= 4}
         time={timeStep[3]}
         title="Color Theme"
         des="When an unknown printer took a galley of type and scrambled it to make a t specimen book"
-      />
+      /> */}
     </View>
   );
 };

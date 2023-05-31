@@ -67,7 +67,7 @@ const MenuLeague = memo(() => {
         //accessoryRight={<NavigationAction icon="heart" />}
       />
       <Content contentContainerStyle={{ paddingTop: 115 * (height / 350) }}>
-        <LinearGradient
+        {/* <LinearGradient
           style={styles.linearCard}
           colors={["rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0.27)"]}
         >
@@ -77,7 +77,7 @@ const MenuLeague = memo(() => {
           >
             Explora en un solo lugar
           </Text>
-        </LinearGradient>
+        </LinearGradient> */}
 
         {fetched ? (
           ligas.map((item, i) => {

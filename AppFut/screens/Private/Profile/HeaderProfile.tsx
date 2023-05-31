@@ -44,32 +44,7 @@ const HeaderProfile = memo(({ data }: DataProps) => {
         <Icon pack="assets" name="ig" style={styles.iconSocial} />
       </View>
       <Layout style={styles.footer} level={"2"}>
-        {/* <View style={styles.footerItem}>
-          <Text category="title3" center marginBottom={7}>
-            1
-          </Text>
-          <Text category="caption1" center capitalize>
-            Mis Ligas
-          </Text>
-        </View>
-        <Layout style={styles.line} level={"7"} />
-        <View style={styles.footerItem}>
-          <Text category="title3" center marginBottom={7}>
-            {data.follower}
-          </Text>
-          <Text category="caption1" center capitalize>
-            followers
-          </Text>
-        </View>
-        <Layout style={styles.line} level={"7"} />
-        <View style={styles.footerItem}>
-          <Text category="title3" center marginBottom={7}>
-            {data.loves}
-          </Text>
-          <Text category="caption1" center capitalize>
-            loves
-          </Text>
-        </View> */}
+       
       </Layout>
     </View>
   );

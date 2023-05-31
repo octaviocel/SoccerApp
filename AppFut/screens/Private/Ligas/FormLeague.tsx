@@ -98,7 +98,7 @@ export default function FormLeague() {
 
         //*const response = await LigaService.createLiga2(dataSend);
         const response = dispatch(createLiga(dataSend));
-        console.log(response);
+        //console.log(response);
         toast.show("Liga creada correctamente", {
           type: "success",
           placement: "bottom",

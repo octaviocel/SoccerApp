@@ -1,5 +1,11 @@
 import React, { memo, useState } from "react";
-import { View, Image, FlatList, Platform } from "react-native";
+import {
+  View,
+  Image,
+  FlatList,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 import {
   useTheme,
   StyleService,
@@ -8,6 +14,7 @@ import {
   Button,
   Layout,
   Datepicker,
+  TopNavigation,
 } from "@ui-kitten/components";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import useLayout from "../../../hoooks/useLayout";
@@ -18,8 +25,18 @@ import BasicHeader from "../Component/BasicHeader";
 import * as ImagePicker from "expo-image-picker";
 import { AppParamList } from "../../../navigation/type";
 import BottomTab from "../Component/BottomTab";
+import Content from "../../../components/Content";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ActivityIndicator } from "react-native-paper";
+import Jugador from "../../../models/Jugador";
+import S3Service from "../../../service/S3Service";
+import { AppDispatch } from "../../../redux/store";
+import { useDispatch } from "react-redux";
+import { useToast } from "react-native-toast-notifications";
+import { createJugador } from "../../../service/JugadorService";
 
 const FormPlayer = memo(() => {
+  const [data, setData] = useState(new Jugador());
 
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
 
@@ -31,8 +48,21 @@ const FormPlayer = memo(() => {
 
   const SIZE_PIG = 195.97 * (width / 375);
 
-  const [file, setFile] = React.useState<FormData | undefined>();
+  const [file, setFile] = React.useState<any | undefined>();
   const [image, setImage] = React.useState<string | null>(null);
+
+  const [loading, setLoading] = useState(false);
+  const currentYear = new Date().getFullYear();
+  const dispatch = useDispatch<AppDispatch>();
+  const toast = useToast();
+
+  const { getState } = useNavigation();
+
+  const equipoId = Number(
+    getState().routes.find((item) => item.name === "FormPlayer")?.params[
+      "value"
+    ]
+  );
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -42,149 +72,191 @@ const FormPlayer = memo(() => {
       quality: 1,
     });
 
-    if (!result.cancelled && result.uri) {
-      try {
-        const data = new FormData();
-        data.append(
-          "foto",
-          JSON.stringify({
-            name: result.uri.split("ImagePicker/")[1],
-            type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
-            uri:
-              Platform.OS === "ios"
-                ? result.uri.replace("file://", "")
-                : result.uri,
-          })
-        );
-        // await ImagesService.uploadRN(data);
-        setFile(data);
-      } catch (error) {
-        console.log(error);
-      }
-      setImage(result.uri);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setFile(result.assets[0]);
     }
   };
 
+  const handleOnPress = async () => {
+    try {
+      setLoading(true);
+      const subir = await S3Service.create(file);
+
+      if (subir) {
+        const dataSend = {
+          nombre: data.nombre,
+          apePat: data.apePat,
+          apeMat: data.apeMat,
+          fechaNacimiento: date.toISOString().split("T")[0],
+          altura: data.altura,
+          peso: data.peso,
+          numero: data.numero,
+          foto: subir.id,
+          equipo_id: equipoId,
+        };
+        dispatch(createJugador(dataSend));
+        //console.log(response);
+        toast.show("Jugador creada correctamente", {
+          type: "success",
+          placement: "bottom",
+          duration: 4000,
+          //offset: 30,
+          animationType: "slide-in",
+          style: {
+            marginBottom: 100,
+          },
+        });
+        goBack();
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Container style={styles.container} useSafeArea={false}>
-      <Image
-        //source={Images.bgCrypto}
-        /* @ts-ignore */
-        style={[styles.bg, { width: width, height: height / 2 }]}
-      />
-      <BasicHeader
-        style={[{ marginTop: top }]}
-        appearance={"control"}
-        iconLeft={{ icon: "drawMenu" }}
-        iconRight={{ icon: "user", _onPress: () => { } }}
-        title="Players"
-      />
-      <FlatList
-        data={[1]}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-        stickyHeaderIndices={[1]}
-        keyExtractor={keyExtractor}
-        renderItem={() => (
-          <>
-            <View style={styles.title}>
-              <Image
-                //source={Images.safeMoney}
-                resizeMode="center"
-                style={{
-                  width: SIZE_PIG,
-                  height: SIZE_PIG,
-                  position: "absolute",
-                  right: -8,
-                  top: -16,
-                  transform: [{ rotateZ: "3deg" }],
-                }}
-              />
-
-              <View>
-                <Text
-                  marginLeft={135}
-                  marginTop={16}
-                  category="title3"
-                  marginRight={120}
-                >
-                  Alta de Jugador
-                </Text>
-
-                <Input
-                  placeholder="Nombre"
-                  status="primary"
-                  style={styles.input}
-                />
-                <Input
-                  placeholder="Apellido Paterno"
-                  status="primary"
-                  style={styles.input}
-                />
-                <Input
-                  placeholder="Apellido Materno"
-                  status="primary"
-                  style={styles.input}
-                />
-                <Datepicker
-                  style={styles.input}
-                  date={date}
-                  onSelect={(nextDate) => setDate(nextDate)}
-                />
-                <Input
-                  keyboardType="numeric"
-                  placeholder="Altura"
-                  status="primary"
-                  style={styles.input}
-                />
-                <Input
-                  keyboardType="numeric"
-                  placeholder="Número"
-                  status="primary"
-                  style={styles.input}
-                />
-                <Input
-                  placeholder="Equipo"
-                  status="primary"
-                  style={styles.input}
-                />
-
-                <View style={{ margin: 10 }}>
-                  <Button children={"Subir Imagen"} onPress={pickImage} />
-                  {image && (
-                    <Image
-                      source={{ uri: image }}
-                      style={{
-                        width: 200,
-                        height: 200,
-                        alignSelf: "center",
-                        margin: 15,
-                      }}
-                    />
-                  )}
-                </View>
-
-                <View style={styles.buttons}>
-                  <Button
-                    children="Cancelar"
-                    style={styles.buttonsLiga}
-                    status="danger"
-                    onPress={goBack}
-                  />
-                  <Button
-                    status="success"
-                    style={styles.buttonsLiga}
-                    children="Guardar"
-                    onPress={() => navigate("Profile")}
-                  />
-                </View>
-              </View>
-            </View>
-            <Layout style={styles.topContent} />
-          </>
+      <TopNavigation
+        accessoryLeft={() => (
+          <TouchableOpacity>
+            <Image
+              /*  source={Images.futbol}*/
+              /* @ts-ignore */
+              style={styles.icon}
+            />
+          </TouchableOpacity>
         )}
       />
-      <BottomTab selectIndex={0} />
+      <Content style={styles.content}>
+        <Text category="header">Alta Jugador</Text>
+        <KeyboardAwareScrollView>
+          {loading ? (
+            <>
+              <ActivityIndicator
+                size="large"
+                color="yellow"
+                style={{ height: 500 }}
+              />
+            </>
+          ) : (
+            <>
+              <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
+                Nombre (s):
+              </Text>
+              <Input
+                placeholder="Nombre"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, nombre: text })}
+              />
+
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Apellido Paterno:
+              </Text>
+              <Input
+                placeholder="Entrenador"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, apePat: text })}
+              />
+
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Apellido Materno:
+              </Text>
+              <Input
+                placeholder="Estadio"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, apeMat: text })}
+              />
+
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Fecha de Nacimiento:
+              </Text>
+              <Datepicker
+                style={styles.input}
+                date={date}
+                onSelect={(nextDate) => setDate(nextDate)}
+                min={new Date(currentYear - 50, 0, 1)} // Permitir selección de fechas de hasta 10 años atrás
+                max={new Date(currentYear + 1, 11, 31)} // Permitir selección de fechas de hasta 10 años adelante
+                placeholder="Fecha de inicio"
+              />
+
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Altura:
+              </Text>
+              <Input
+                placeholder="en Centimetros"
+                status="primary"
+                keyboardType="numeric"
+                style={styles.input}
+                onChangeText={(text) =>
+                  setData({ ...data, altura: Number(text) })
+                }
+              />
+
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Peso:
+              </Text>
+              <Input
+                placeholder="en Kilogramos"
+                status="primary"
+                keyboardType="numeric"
+                style={styles.input}
+                onChangeText={(text) =>
+                  setData({ ...data, peso: Number(text) })
+                }
+              />
+
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Número del Jugador:
+              </Text>
+              <Input
+                placeholder="10"
+                keyboardType="numeric"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) =>
+                  setData({ ...data, numero: Number(text) })
+                }
+              />
+              <Text style={{ marginTop: 15, fontSize: 15 }}>
+                Imagen Jugador:
+              </Text>
+              <View style={{ margin: 10, marginTop: 10 }}>
+                <Button children="Subir Imagen" onPress={pickImage} />
+                {image && (
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      alignSelf: "center",
+                      margin: 15,
+                    }}
+                  />
+                )}
+              </View>
+
+              <View style={styles.buttons}>
+                <Button
+                  children="Cancelar"
+                  style={styles.buttonsLiga}
+                  status="danger"
+                  onPress={goBack}
+                />
+                <Button
+                  status="success"
+                  style={styles.buttonsLiga}
+                  children="Guardar"
+                  onPress={handleOnPress}
+                />
+              </View>
+            </>
+          )}
+        </KeyboardAwareScrollView>
+      </Content>
     </Container>
   );
 });
@@ -233,9 +305,7 @@ const themedStyles = StyleService.create({
     backgroundColor: "green",
   },
   content: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingTop: 24,
+    marginHorizontal: 20,
   },
   buttons: {
     flex: 1,

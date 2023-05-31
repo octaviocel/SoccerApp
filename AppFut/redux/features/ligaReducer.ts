@@ -1,10 +1,11 @@
-import { getAllLigas, getAllLigasLimit, createLiga } from './../../service/LigasService';
+import { getAllLigas, getAllLigasLimit, createLiga, getAdminLeague } from './../../service/LigasService';
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import Liga from "../../models/Liga";
 
 interface LigaState {
     ligas: Liga[]
     ligasPreview: Liga[]
+    ligasAdmin: Liga[]
     fetched: boolean
     error: boolean
 }
@@ -12,6 +13,7 @@ interface LigaState {
 const initialState: LigaState = {
     ligas: [],
     ligasPreview: [],
+    ligasAdmin: [],
     fetched: false,
     error: false,
 }
@@ -50,6 +52,18 @@ export const ligaSlice = createSlice({
             .addCase(getAllLigasLimit.rejected, (state) => {
                 // console.log("error")
                 //console.log()
+                state.error = true;
+                state.fetched = true;
+            });
+        builder
+            .addCase(getAdminLeague.pending, (state) => {
+                state.fetched = false;
+            })
+            .addCase(getAdminLeague.fulfilled, (state, action) => {
+                state.fetched = true;
+                state.ligasAdmin = action.payload;
+            })
+            .addCase(getAdminLeague.rejected, (state) => {
                 state.error = true;
                 state.fetched = true;
             });

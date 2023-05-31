@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import {
   Image,
   TouchableOpacity,
@@ -28,15 +28,37 @@ import useLayout from "../../../hoooks/useLayout";
 import BottomTab from "../Component/BottomTab";
 import { AppParamList } from "../../../navigation/type";
 
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ActivityIndicator } from "react-native-paper";
+import S3Service from "../../../service/S3Service";
+import { useDispatch } from "react-redux";
+import { createEquipo } from "../../../service/EquipoService";
+import { AppDispatch } from "../../../redux/store";
+import { useToast } from "react-native-toast-notifications";
+
 export default function FormEquipo() {
   // const navigation = useNavigation();
+  const dispatch = useDispatch<AppDispatch>();
+  const toast = useToast();
 
+  const { getState } = useNavigation();
+
+  const ligaId = Number(
+    getState().routes.find((item) => item.name === "FormTeam")?.params["value"]
+  );
   const { navigate, goBack } = useNavigation<NavigationProp<AppParamList>>();
   const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
-  const [date, setDate] = React.useState(new Date());
-  const [file, setFile] = React.useState<FormData | undefined>();
+  const [file, setFile] = React.useState<any | undefined>();
   const [image, setImage] = React.useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const [data, setData] = useState({
+    nombre: "",
+    entrenador: "",
+    estadio: "",
+    liga_id: ligaId,
+  });
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -46,27 +68,40 @@ export default function FormEquipo() {
       quality: 1,
     });
 
-    if (!result.cancelled && result.uri) {
-      try {
-        const data = new FormData();
-        data.append(
-          "foto",
-          JSON.stringify({
-            name: result.uri.split("ImagePicker/")[1],
-            type: `image/${result.uri.split("ImagePicker/")[1].split(".")[1]}`,
-            uri:
-              Platform.OS === "ios"
-                ? result.uri.replace("file://", "")
-                : result.uri,
-          })
-        );
-        // await ImagesService.uploadRN(data);
-        setFile(data);
-      } catch (error) {
-        console.log(error);
-      }
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setFile(result.assets[0]);
+    }
+  };
 
-      setImage(result.uri);
+  const handleOnPress = async () => {
+    try {
+      setLoading(true);
+      const subir = await S3Service.create(file);
+
+      if (subir) {
+        const dataSend = {
+          ...data,
+          logo: subir.id,
+        };
+
+        dispatch(createEquipo(dataSend));
+        toast.show("Equipo creado correctamente", {
+          type: "success",
+          placement: "bottom",
+          duration: 4000,
+          //offset: 30,
+          animationType: "slide-in",
+          style: {
+            marginBottom: 100,
+          },
+        });
+        goBack();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,52 +120,82 @@ export default function FormEquipo() {
       />
       <Content style={styles.content}>
         <Text category="header">Agregar Equipo</Text>
-        <Input placeholder="Nombre" status="primary" style={styles.input} />
+        <KeyboardAwareScrollView>
+          {loading ? (
+            <>
+              <ActivityIndicator
+                size="large"
+                color="yellow"
+                style={{ height: 500 }}
+              />
+            </>
+          ) : (
+            <>
+              <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
+                Nombre del Equipo:
+              </Text>
+              <Input
+                placeholder="Nombre"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, nombre: text })}
+              />
 
-        <Input placeholder="Entrenador" status="primary" style={styles.input} />
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Nombre del Entrenador / Titular del Equipo:
+              </Text>
+              <Input
+                placeholder="Entrenador"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, entrenador: text })}
+              />
 
-        <Input placeholder="Estadio" status="primary" style={styles.input} />
+              <Text style={{ marginTop: 15, fontSize: 15, marginBottom: -15 }}>
+                Nombre del Campo de Juego:
+              </Text>
+              <Input
+                placeholder="Estadio"
+                status="primary"
+                style={styles.input}
+                onChangeText={(text) => setData({ ...data, estadio: text })}
+              />
 
-        <View style={{ margin: 10, marginTop: 10 }}>
-          <Button children="Quiero Una Subir Imagen" onPress={pickImage} />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{
-                width: 200,
-                height: 200,
-                alignSelf: "center",
-                margin: 15,
-              }}
-            />
+              <Text style={{ marginTop: 15, fontSize: 15 }}>
+                Logo del Equipo:
+              </Text>
+              <View style={{ margin: 10, marginTop: 10 }}>
+                <Button children="Subir Imagen" onPress={pickImage} />
+                {image && (
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      alignSelf: "center",
+                      margin: 15,
+                    }}
+                  />
+                )}
+              </View>
+
+              <View style={styles.buttons}>
+                <Button
+                  children="Cancelar"
+                  style={styles.buttonsLiga}
+                  status="danger"
+                  onPress={goBack}
+                />
+                <Button
+                  status="success"
+                  style={styles.buttonsLiga}
+                  children="Guardar"
+                  onPress={handleOnPress}
+                />
+              </View>
+            </>
           )}
-        </View>
-        <Input placeholder="Liga" status="primary" style={styles.input} />
-
-        <View style={styles.buttons}>
-          <Button
-            children="Cancelar"
-            style={styles.buttonsLiga}
-            status="danger"
-            onPress={goBack}
-          />
-          <Button
-            status="success"
-            style={styles.buttonsLiga}
-            children="Guardar"
-            onPress={() => navigate("Profile")}
-          />
-        </View>
-
-        <ScrollView
-          scrollEnabled={false}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[
-            styles.btnImage,
-            { paddingBottom: bottom + 24, justifyContent: "center" },
-          ]}
-        ></ScrollView>
+        </KeyboardAwareScrollView>
       </Content>
       <BottomTab selectIndex={0} />
     </Container>

@@ -18,6 +18,10 @@ import FormEquipo from "../screens/Private/Equipos/FormEquipo";
 import FormPlayer from "../screens/Private/Players/FormPlayer";
 import FormPartido from "../screens/Private/Partidos/FormPartido";
 import TableEstadisticas from "../screens/Private/Estadisticas/TableEstadisticas";
+import LeagueAdmin from "../screens/Private/Settings/Index";
+import TeamDetail from "../screens/Private/TeamDetail/Index";
+import FormRegister from "../screens/Register/FormRegister";
+import TypePay from "../screens/Register/TypePay";
 
 const Stack = createNativeStackNavigator<AppParamList>();
 
@@ -43,6 +47,8 @@ const AppContainer = () => {
           <Stack.Screen name="Health" component={HealthStackNavigator} />
           <Stack.Screen name="Education" component={EducationStackNavigator} /> */}
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={FormRegister} />
+        <Stack.Screen name="TypeRegister" component={TypePay} />
         <Stack.Screen name="NewsPage" component={NewsPage} />
         <Stack.Screen name="HomePage" component={Homepage} />
         <Stack.Screen name="MenuLeague" component={MenuLeague} />
@@ -50,6 +56,9 @@ const AppContainer = () => {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Games" component={Activities} />
         <Stack.Screen name="Estadisticas" component={TableEstadisticas} />
+        <Stack.Screen name="LeagueAdmin" component={LeagueAdmin} />
+        <Stack.Screen name="TeamDetail" component={TeamDetail} />
+
 
         {
           //Formularios

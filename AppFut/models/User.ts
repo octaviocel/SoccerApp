@@ -7,6 +7,7 @@ interface UserProperties {
     apemat?: string
     email?: string
     rol?: Rol
+    password?: string
 }
 
 export default class User {
@@ -16,12 +17,14 @@ export default class User {
     apemat
     email
     role
+    password
     constructor(propierties: UserProperties = {}) {
         this.id = propierties.id || 0
         this.nombre = propierties.nombre || ''
         this.apepat = propierties.apepat || ''
         this.apemat = propierties.apemat || ''
         this.email = propierties.email || ''
+        this.password = propierties.password || ''
         this.role = propierties.rol || new Rol()
     }
 

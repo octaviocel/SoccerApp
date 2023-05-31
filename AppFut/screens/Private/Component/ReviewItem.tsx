@@ -5,6 +5,7 @@ import { StyleService, useStyleSheet, Avatar } from "@ui-kitten/components";
 import Text from "../../../components/Text";
 //import { Images } from "assets/images";
 import StarReview from "./StarReview";
+import Jugador from "../../../models/Jugador";
 
 interface Props {
   id: number;
@@ -16,7 +17,7 @@ interface Props {
   rate: number;
 }
 interface ItemProps {
-  item: Props;
+  item: Jugador;
 }
 
 const ReviewItem = memo(({ item }: ItemProps) => {
@@ -30,26 +31,28 @@ const ReviewItem = memo(({ item }: ItemProps) => {
       />
       <View style={styles.header}>
         <Avatar
-          source={item.avatar}
+          source={{ uri: item.foto }}
           size={"40"}
           /* @ts-ignore */
           style={styles.avatar}
         />
         <View>
-          <Text category="headline">{item.name}</Text>
+          <Text category="headline">{item.nombre}{" "+item.apePat}{" "+item.apeMat}</Text>
           <Text category="caption1" status={"placeholder"}>
-            {item.email}
+            {item.fechaNacimiento}
           </Text>
         </View>
       </View>
       <View style={styles.body}>
-        <StarReview defaultRate={item.rate} />
         <Text category="caption1" status={"placeholder"}>
-          {item.time}
+          Número: {item.numero}
+        </Text>
+        <Text category="caption1" status={"placeholder"}>
+          Peso: {item.peso} Kg.
         </Text>
       </View>
       <Text category="caption1" status={"placeholder"} marginHorizontal={36}>
-        {item.des}
+        Altura: {item.altura} cm
       </Text>
       <View style={styles.btnIcon}>
         <Image

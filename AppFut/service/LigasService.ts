@@ -25,6 +25,13 @@ export const getAllLigasLimit = createAsyncThunk(
     }
 )
 
+export const getAdminLeague = createAsyncThunk(
+    'liga/getAdmin',
+    async (id: number) => {
+        return (await httpClient.get(`${prefix}/myleagues/${id}`)).data;
+    }
+)
+
 export const getOneLiga = createAsyncThunk(
     'liga/getOne',
     async (id: number) => {

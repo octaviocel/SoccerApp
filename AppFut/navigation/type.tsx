@@ -1,4 +1,7 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
+import Liga from "../models/Liga";
+import Equipo from "../models/Equipo";
+import User from "../models/User";
 
 export type RootStackParamList = {
   Intro: undefined;
@@ -28,10 +31,14 @@ export type AppParamList = {
   Profile: undefined;
   NewsPage: undefined;
   Games: undefined;
-  FormTeam: undefined;
-  FormPlayer: undefined;
+  FormTeam: { value: number } | undefined;
+  FormPlayer: { value: number } | undefined;
   FormGame: undefined;
   Estadisticas: undefined;
+  LeagueAdmin: { value: Liga } | undefined;
+  TeamDetail: { value: Equipo } | undefined;
+  Register: undefined;
+  TypeRegister: { value: User } | undefined;
 };
 
 export type InsideParamListScrens = {

@@ -36,13 +36,13 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { useToast } from "react-native-toast-notifications";
 import { useSelector } from "react-redux";
 import { ActivityIndicator } from "react-native-paper";
+import User from "../../models/User";
 
 export default function FormRegister() {
   // const navigation = useNavigation();
 
   const toast = useToast();
 
-  const dispatch = useDispatch<AppDispatch>();
 
   const [loading, setLoading] = useState(false);
 
@@ -76,36 +76,9 @@ export default function FormRegister() {
         rol_id: data.rol_id,
       };
 
-      const actionResult = await dispatch(createUser(dataSend));
-      const response = actionResult.payload;
+      navigate("TypeRegister", { value: new User(dataSend) })
 
-      console.log(response);
-
-      if (actionResult.meta.requestStatus === 'rejected') {
-        const error = actionResult.payload.error; // Access the 'error' property from the payload
-        console.log(error);
-
-        toast.show("Error al crear el usuario", {
-          type: "error",
-          placement: "bottom",
-          duration: 4000,
-          style: {
-            marginBottom: 100,
-          },
-        });
-      } else {
-        // Handle the successful case
-        toast.show("Usuario creado correctamente", {
-          type: "success",
-          placement: "bottom",
-          duration: 4000,
-          style: {
-            marginBottom: 100,
-          },
-        });
-        goBack();
-      }
-
+      
     } catch (error) {
       console.log(error);
     } finally {
@@ -129,7 +102,7 @@ export default function FormRegister() {
         )}
       />
       <Content style={styles.content}>
-        <Text category="header">Agregar Usuario</Text>
+        <Text category="header">Registro</Text>
         {loading ? (
           <>
             <ActivityIndicator
@@ -169,24 +142,28 @@ export default function FormRegister() {
                 onChangeText={(text) => setData({ ...data, apemat: text })}
               />
               <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
-                email:
+                Correo:
               </Text>
               <Input
-                placeholder="Email"
+                placeholder="Correo"
                 status="primary"
+                keyboardType="email-address"
                 style={styles.input}
-                onChangeText={(text) => setData({ ...data, email: text })}
+                value={data.email}
+                onChangeText={(text) => setData({ ...data, email: text.toLowerCase() })}
               />
               <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
-                password:
+                Contraseña:
               </Text>
               <Input
-                placeholder="Password"
+                placeholder="Contraseña"
                 status="primary"
+                keyboardType="visible-password"
+                secureTextEntry={true}
                 style={styles.input}
                 onChangeText={(text) => setData({ ...data, password: text })}
               />
-              <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
+              {/* <Text style={{ marginTop: 20, fontSize: 15, marginBottom: -15 }}>
                 Numero de Rol:
               </Text>
               <Input
@@ -194,7 +171,7 @@ export default function FormRegister() {
                 status="primary"
                 style={styles.input}
                 onChangeText={(text) => setData({ ...data, rol_id: Number(text) })}
-              />
+              /> */}
 
 
               {/* <Input
@@ -204,16 +181,16 @@ export default function FormRegister() {
         /> */}
 
               <View style={styles.buttons}>
-                <Button
+                {/* <Button
                   children="Cancelar"
                   style={styles.buttonsLiga}
                   status="danger"
                   onPress={goBack}
-                />
+                /> */}
                 <Button
                   status="success"
                   style={styles.buttonsLiga}
-                  children="Guardar"
+                  children="Registar"
                   onPress={handleOnPressSave}
                 />
               </View>

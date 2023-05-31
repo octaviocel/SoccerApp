@@ -31,7 +31,7 @@ import { Images } from "../../../assets/images";
 import BottomTab from "../Component/BottomTab";
 import FrequencyTab from "../Component/FrequencyTab";
 import TabCourse from "../Component/TabCourse";
-import HeaderProfile from "./HeaderProfile";
+import HeaderProfile from "../Profile/HeaderProfile";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import Text from "../../../components/Text";
@@ -46,9 +46,13 @@ import { useDispatch } from "react-redux";
 import { _ } from "numeral";
 import Modal from "../Component/Modal";
 import ReactNativeModal from "react-native-modal";
+import Liga from "../../../models/Liga";
+import EquipoShow from "./EquipoShow";
+import PartidosShow from "../TeamDetail/PartidosShow";
 
-const Profile = memo(() => {
+const LeagueAdmin = memo(() => {
   const { height, width, top, bottom } = useLayout();
+  const { getState } = useNavigation();
   const dispatch = useDispatch<AppDispatch>();
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
@@ -57,8 +61,14 @@ const Profile = memo(() => {
 
   const toast = useToast();
 
-  const { currentUser, loading } = useSelector(
-    (state: RootState) => state.user
+  //   const { currentUser, loading } = useSelector(
+  //     (state: RootState) => state.user
+  //   );
+
+  const liga = new Liga(
+    getState().routes.find((item) => item.name === "LeagueAdmin")?.params[
+      "value"
+    ]
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -132,52 +142,33 @@ const Profile = memo(() => {
 
   const DATA = [
     {
-      id: 0,
-      title: "Agregar Liga",
-      icon: "heart",
-      _onPress: () => navigate("FormLeague"),
+      id: 1,
+      title: "Agregar Equipo",
+      icon: "list",
+      _onPress: () => navigate("FormTeam"),
     },
     // {
-    //   id: 1,
-    //   title: "Agregar Equipo",
-    //   icon: "list",
-    //   _onPress: () => navigate("FormTeam"),
-    // },
+    //   id: 5,
+    //   title: "Ver Equipos",
+    //   icon: "search",
+    // // },
     // {
     //   id: 2,
     //   title: "Agregar Jugadores",
     //   icon: "worldWide",
     //   _onPress: () => navigate("FormPlayer"),
     // },
-    // {
-    //   id: 3,
-    //   title: "Ver Estadísticas",
-    //   icon: "eye",
-    //   _onPress: () => navigate("Estadisticas"),
-    // },
-    { id: 4, title: "Configuracion", icon: "settings" },
+    {
+      id: 3,
+      title: "Ver Estadísticas",
+      icon: "eye",
+      _onPress: () => navigate("Estadisticas"),
+    },
+    { id: 4, title: "Configuracion ", icon: "settings" },
   ];
 
   const [modalVisible, setModalVisible] = useState(true);
 
-  const logout = () => {
-    dispatch(signOut());
-    navigate("HomePage");
-  };
-  //console.log(currentUser);
-
-  if (!currentUser) {
-    tos("Necesitas Iniciar Sesión para Funciones Premiun");
-
-    navigate("HomePage");
-  }
-  if (!loading) {
-    return (
-      <>
-        <LoadingComponent />
-      </>
-    );
-  }
   return (
     <Container style={styles.container} useSafeArea={false}>
       <TopNavigation
@@ -195,7 +186,7 @@ const Profile = memo(() => {
               <Avatar
                 size="40"
                 source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
+                  uri: liga.foto,
                 }}
               />
             </Animated.View>
@@ -211,7 +202,7 @@ const Profile = memo(() => {
       <Animated.View style={scaleAvatar}>
         <Avatar
           source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
+            uri: liga.foto,
           }}
           size={"92"}
           //shape="square"
@@ -228,27 +219,26 @@ const Profile = memo(() => {
           paddingBottom: bottom + 40,
         }}
       >
-        <HeaderProfile data={DATA_USER} />
-        <View style={styles.action}>
-          <Button
-            accessoryLeft={<Icon pack="assets" name="star" />}
-            status={"control"}
-            size={"50"}
-            children={currentUser?.role?.descripcion}
-            style={styles.mess}
-          />
-          <Button
-            accessoryLeft={<Icon pack="assets" name="leftChevron" />}
-            size="50"
-            children="Salir"
-            onPress={logout}
-            style={styles.following}
-          />
+        <View>
+          <View style={styles.container}>
+            <Text category="title4" uppercase center marginBottom={8}>
+              {liga.nombre}
+            </Text>
+            <Text category="subhead" status={"placeholder"} center>
+              {liga.ubicacion}
+            </Text>
+            <View style={styles.social}>
+              <Icon pack="assets" name="fb1" style={styles.iconSocial} />
+              <Icon pack="assets" name="tw" style={styles.iconSocial} />
+              <Icon pack="assets" name="ig" style={styles.iconSocial} />
+            </View>
+            <Layout style={styles.footer} level={"2"}></Layout>
+          </View>
         </View>
         <FrequencyTab
           selectedIndex={selectedIndex}
           onChange={setSelectedIndex}
-          tabs={["Mis Ligas", "Configuraciones"]}
+          tabs={["Liga", "Equipos", "Partidos"]}
           style={styles.tabBar}
         />
         <ViewPager
@@ -256,15 +246,18 @@ const Profile = memo(() => {
           onSelect={setSelectedIndex}
           style={styles.viewPager}
         >
-          <TabCourse cambio={true} />
           <View>
             <Content contentContainerStyle={styles.content}>
               {DATA.map((item, i) => {
                 return (
                   <TouchableOpacity
-                    key={i + item.title}
+                    key={item.id}
                     activeOpacity={0.7}
-                    onPress={item._onPress}
+                    onPress={
+                      item.id === 1
+                        ? () => navigate("FormTeam", { value: liga.id })
+                        : item._onPress
+                    }
                     style={[
                       styles.item,
                       {
@@ -314,6 +307,12 @@ const Profile = memo(() => {
               })}
             </Content>
           </View>
+          <View>
+            <EquipoShow liga={liga.id} />
+          </View>
+          <View>
+            <PartidosShow  />
+          </View>
         </ViewPager>
       </Animated.ScrollView>
       <BottomTab selectIndex={4} />
@@ -321,7 +320,7 @@ const Profile = memo(() => {
   );
 });
 
-export default Profile;
+export default LeagueAdmin;
 
 const themedStyles = StyleService.create({
   container: {
@@ -424,6 +423,23 @@ const themedStyles = StyleService.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  social: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  iconSocial: {
+    width: 40,
+    height: 40,
+    marginHorizontal: 12,
+  },
+  footer: {
+    borderRadius: 12,
+    flexDirection: "row",
+    marginHorizontal: 24,
+    justifyContent: "space-between",
+    paddingHorizontal: 32,
+  },
 });
 const DATA_USER = {
   name: "Francis Dixon",
@@ -435,5 +451,3 @@ const DATA_USER = {
 const DATA_COLLECTION = [
   { id: 0, title: "Liga de las estrellas", image: Images.liga },
 ];
-
-const CAMBIO = { cambio: true };

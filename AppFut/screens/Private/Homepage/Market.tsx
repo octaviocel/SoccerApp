@@ -5,7 +5,11 @@ import { StyleService, useStyleSheet, Icon } from "@ui-kitten/components";
 import Text from "../../../components/Text";
 //import { Crypto_Types_Enum } from "constants/Type";
 import MarketItem from "../Component/MarketItem";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
 import { AppParamList } from "../../../navigation/type";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -22,17 +26,23 @@ const Market = memo(() => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { ligasPreview, fetched } = useSelector((state: RootState) => state.ligas);
+  const { ligasPreview, fetched } = useSelector(
+    (state: RootState) => state.ligas
+  );
 
   const { navigate } = useNavigation<NavigationProp<AppParamList>>();
 
-  useEffect(() => {
-    getLigas()
-  }, [dispatch]);
+  const isFocused = useIsFocused();
 
-  const getLigas=  ()=>{
+  useEffect(() => {
+    if (isFocused) {
+      getLigas();
+    }
+  }, [isFocused]);
+
+  const getLigas = () => {
     dispatch(getAllLigasLimit());
-  }
+  };
 
   //console.log(ligas);
   return (
@@ -54,7 +64,9 @@ const Market = memo(() => {
                 item={item}
                 key={i}
                 style={styles.item}
-                _onPres={() => navigate(`DetailTableLeague`, { value: item.id })}
+                _onPres={() =>
+                  navigate(`DetailTableLeague`, { value: item.id })
+                }
               />
             );
           })}
